@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import supabase from "../helper/supabaseClient";
 import { TextField, Box } from "@mui/material";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingButton, setloadingButton] = useState(false);
 
   const handleSubmit = async (event) => {
+    console.log("Processing event");
     event.preventDefault();
     setMessage("");
 
@@ -18,11 +20,11 @@ export default function Register() {
       password: password,
     });
 
-    console.log(data, error)
+    console.log(data, error);
 
     if (error) {
       setMessage(error.message);
-      setLoading(false);
+      setloadingButton(false);
       return;
     }
 
@@ -30,17 +32,21 @@ export default function Register() {
       setMessage("Account successfully created!");
       setEmail("");
       setPassword("");
-      setLoading(false);
+      setloadingButton(false);
     }
   };
 
   return (
     <div>
       <h2>Register</h2>
+      {message && <span>{message}</span>}
       <Box
         component="form"
         sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
-        onSubmit={handleSubmit}
+        onSubmit={(e) => {
+          handleSubmit(e);
+          setloadingButton(false);
+        }}
       >
         <TextField
           onChange={(e) => setEmail(e.target.value)}
@@ -63,14 +69,13 @@ export default function Register() {
           variant="contained"
           sx={{ backgroundColor: "black" }}
           size="large"
-          onClick={() => setLoading(true)}
-          loading={loading}
+          loading={loadingButton}
         >
           Register
         </Button>
       </Box>
-
-      {message && <span>{message}</span>}
+      <span>Already have an account?</span>
+      <Link to="/login">Log in</Link>
     </div>
   );
 }
