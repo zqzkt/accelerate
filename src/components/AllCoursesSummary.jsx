@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CardHeader } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Box } from "@mui/material";
-import ProgressBar from "./ProgressBar";
 import supabase from "../../helper/supabaseClient";
 
-export default function InProgressCoursesSummary() {
-  const [error, setError] = useState("");
+export default function AllCoursesSummary() {
   const [user, setUser] = useState("");
+  const [error, setError] = useState("");
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -31,11 +30,8 @@ export default function InProgressCoursesSummary() {
   useEffect(() => {
     if (!user) return;
 
-    const getUserCourses = async () => {
-      const { data, error } = await supabase
-        .from("course_progress")
-        .select(`course_id, progress, courses (title)`)
-        .eq("user_id", user);
+    const getAllCourses = async () => {
+      const { data, error } = await supabase.from("courses").select("*");
 
       if (error) {
         console.log(error);
@@ -46,14 +42,13 @@ export default function InProgressCoursesSummary() {
       }
     };
 
-    getUserCourses();
+    getAllCourses();
   }, [user]);
 
   return (
     <div>
-      <p>{error}</p>
-      <h2>My Courses</h2>
-      <Box sx={{ display: "flex", flexDirection: "row", gap: 1}}>
+      <h2>Explore</h2>
+      <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
         {courses.map((course, index) => {
           return (
             <Card
@@ -75,10 +70,8 @@ export default function InProgressCoursesSummary() {
                 },
               }}
             >
-              <CardHeader title={course.courses.title}></CardHeader>
-              <CardContent>
-                <ProgressBar progress={course.progress} />
-              </CardContent>
+              <CardHeader title={course.title}></CardHeader>
+              <CardContent>Learn More</CardContent>
             </Card>
           );
         })}
