@@ -37,45 +37,55 @@ export default function Register() {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      {message && <span>{message}</span>}
-      <Box
-        component="form"
-        sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
-        onSubmit={(e) => {
-          handleSubmit(e);
-          setloadingButton(false);
-        }}
-      >
-        <TextField
-          onChange={(e) => setEmail(e.target.value)}
-          type="text"
-          placeholder="Email"
-          value={email}
-          required
-        />
-
-        <TextField
-          onChange={(e) => setPassword(e.target.value)}
-          type="text"
-          placeholder="Password"
-          value={password}
-          required
-        />
-        <br></br>
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ backgroundColor: "black" }}
-          size="large"
-          loading={loadingButton}
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        width: "100vw",
+      }}
+    >
+      <div>
+        <h2>Register</h2>
+        {message && <span>{message}</span>}
+        <Box
+          component="form"
+          sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
+          onSubmit={(e) => {
+            handleSubmit(e);
+            setloadingButton(false);
+          }}
         >
-          Register
-        </Button>
-      </Box>
-      <span>Already have an account?</span>
-      <Link to="/login">Log in</Link>
-    </div>
+          <TextField
+            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            placeholder="Email"
+            value={email}
+            required
+          />
+
+          <TextField
+            onChange={(e) => setPassword(e.target.value)}
+            type="text"
+            placeholder="Password"
+            value={password}
+            required
+          />
+          <br></br>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ backgroundColor: "black" }}
+            size="large"
+            loading={loadingButton}
+          >
+            Register
+          </Button>
+        </Box>
+        <span>Already have an account?</span>
+        <Link to="/login">Log in</Link>
+      </div>
+    </Box>
   );
 }
