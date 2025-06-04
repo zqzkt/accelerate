@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Box } from "@mui/material";
 import supabase from "../../helper/supabaseClient";
+import { Link } from "react-router-dom";
 
 export default function AllCoursesSummary() {
   const [user, setUser] = useState("");
@@ -31,7 +32,9 @@ export default function AllCoursesSummary() {
     if (!user) return;
 
     const getAllCourses = async () => {
-      const { data, error } = await supabase.from("courses").select("*");
+      const { data, error } = await supabase.from("courses")
+      .select("*")
+      .range(0, 5)
 
       if (error) {
         console.log(error);
@@ -46,8 +49,16 @@ export default function AllCoursesSummary() {
   }, [user]);
 
   return (
-    <div>
-      <h2>Explore</h2>
+    <div style={{margin:'20px'}}>
+      {error}
+      <h2><Link to="/courses" style={{
+        color:"black",
+      textDecoration: "none",
+      "&:hover": { textDecoration: "none" },
+      "&:active": { textDecoration: "none" },
+      "&:visited": { textDecoration: "none" },
+      "&:focus": { textDecoration: "none" }
+    }}>Explore</Link></h2>
       <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
         {courses.map((course, index) => {
           return (
@@ -55,6 +66,7 @@ export default function AllCoursesSummary() {
               variant="outlined"
               key={index}
               sx={{
+                height: 220,
                 width: 200,
                 minWidth: 200,
                 maxWidth: 200,
@@ -63,6 +75,9 @@ export default function AllCoursesSummary() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                border: "2px",
+                outlineStyle: "solid",
+                outlineColor:"#c5c3c9",
                 "&:hover": {
                   boxShadow: 6, // MUI shadow level
                   transform: "translateY(-4px) scale(1.03)",

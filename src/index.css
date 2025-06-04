@@ -5,13 +5,13 @@
 
   color-scheme: white;
   color: black;
-  background-color: light dark;
+  background-color: #e0dee3;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+};
 
 a {
   font-weight: 500;
@@ -24,8 +24,6 @@ a:hover {
 
 body {
   margin: auto;
-  display: flex;
-  min-width: 320px;
   min-height: 100vh;
 }
 

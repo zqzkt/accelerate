@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { CardHeader } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import ProgressBar from "./ProgressBar";
 import supabase from "../../helper/supabaseClient";
+import { Link } from "react-router-dom";
 
 export default function InProgressCoursesSummary() {
   const [error, setError] = useState("");
@@ -50,16 +51,31 @@ export default function InProgressCoursesSummary() {
   }, [user]);
 
   return (
-    <div>
+    <div style={{ margin: "20px" }}>
       <p>{error}</p>
-      <h2>My Courses</h2>
-      <Box sx={{ display: "flex", flexDirection: "row", gap: 1}}>
+      <h2>
+        <Link
+          to="/in_progress_courses"
+          style={{
+            color: "black",
+            textDecoration: "none",
+            "&:hover": { textDecoration: "none" },
+            "&:active": { textDecoration: "none" },
+            "&:visited": { textDecoration: "none" },
+            "&:focus": { textDecoration: "none" },
+          }}
+        >
+          My Courses
+        </Link>
+      </h2>
+      <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
         {courses.map((course, index) => {
           return (
             <Card
               variant="outlined"
               key={index}
               sx={{
+                height: 220,
                 width: 200,
                 minWidth: 200,
                 maxWidth: 200,
@@ -68,6 +84,9 @@ export default function InProgressCoursesSummary() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                border: "2px",
+                outlineStyle: "solid",
+                outlineColor: "#c5c3c9",
                 "&:hover": {
                   boxShadow: 6, // MUI shadow level
                   transform: "translateY(-4px) scale(1.03)",
@@ -78,6 +97,9 @@ export default function InProgressCoursesSummary() {
               <CardHeader title={course.courses.title}></CardHeader>
               <CardContent>
                 <ProgressBar progress={course.progress} />
+                <Button variant="contained" color="secondary">
+                  Continue
+                </Button>
               </CardContent>
             </Card>
           );
