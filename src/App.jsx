@@ -5,6 +5,8 @@ import Register from "../pages/Register";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import Wrapper from "../pages/Wrapper";
+import Courses from "../pages/Courses";
+import InProgressCourses from "../pages/InProgressCourses";
 
 export default function App() {
   return (
@@ -29,6 +31,8 @@ export default function App() {
         >
           /* dashboard */
         </Route>
+        <Route path="/courses" element={<Courses />}></Route>
+        <Route path="/in_progress_courses" element={<InProgressCourses/>}></Route>
       </Routes>
     </BrowserRouter>
   );
