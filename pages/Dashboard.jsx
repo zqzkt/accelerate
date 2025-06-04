@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import supabase from "../helper/supabaseClient";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
@@ -8,13 +7,9 @@ import AllCoursesSummary from "../src/components/AllCoursesSummary";
 import NavigationBar from "../src/components/NavigationBar";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
+  
 
-  const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-    navigate("/login");
-  };
+  
   
   return (
       
@@ -33,7 +28,7 @@ export default function Dashboard() {
         
       </Box>
 
-      <Button onClick={signOut}>Sign out</Button>
+      
     </div>
     </div>
   );
