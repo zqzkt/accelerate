@@ -2,10 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../helper/supabaseClient";
 import Button from "@mui/material/Button";
-import { Container } from "@mui/material";
-import ProfileDrawer from "../src/components/ProfileDrawer";
+import { Box } from "@mui/material";
 import InProgressCoursesSummary from "../src/components/InProgressCoursesSummary";
 import AllCoursesSummary from "../src/components/AllCoursesSummary";
+import NavigationBar from "../src/components/NavigationBar";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -15,35 +15,26 @@ export default function Dashboard() {
     if (error) throw error;
     navigate("/login");
   };
-
-  // const email = useContext(UserContext);
-
-  const getUserID = async() => {
-    const {data: { user }, error} =
-    await supabase.auth.getUser()
-    
-
-    if (error){
-      console.log(error)
-    }
-    return user;
-  };
   
-
   return (
       
 
-    <div style={{}}>
-        <ProfileDrawer/>
-      <h1>Welcome to Accelerate!</h1>
-      <Container sx={{backgroundColor:""}}>
+    <div>
+
+      <NavigationBar position="sticky"/>
+      
+      
+      <div>
+      {/* <h1>Welcome to Accelerate!</h1> */}
+      <Box>
         <InProgressCoursesSummary/>
         <AllCoursesSummary/>
         
         
-      </Container>
+      </Box>
 
       <Button onClick={signOut}>Sign out</Button>
+    </div>
     </div>
   );
 };
