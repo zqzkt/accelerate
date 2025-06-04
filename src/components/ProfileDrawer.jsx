@@ -17,13 +17,25 @@ import {
   ManageAccounts,
   WorkspacePremium,
 } from "@mui/icons-material";
+import supabase from '../../helper/supabaseClient';
+import { useNavigate } from "react-router-dom";
+
 
 export default function ProfileDrawer() {
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+    navigate("/login");
+  };
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+
+  
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
@@ -48,7 +60,7 @@ export default function ProfileDrawer() {
       <Divider />
       <List>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={signOut}>
               <ListItemIcon>
                 <ExitToApp />
               </ListItemIcon>
