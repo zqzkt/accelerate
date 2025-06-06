@@ -77,11 +77,11 @@ export default function InProgressCourses() {
                 },
               }}
             >
-              <CardHeader title={course.courses.title}></CardHeader>
+              <CardHeader slotProps={{title: {variant:'h6' }}} title={course.courses.title} titleTypographyProps={{ fontSize: '1rem' }}></CardHeader>
               <CardContent>
                 <ProgressBar progress={course.progress} />
                 <Button variant="contained" color="secondary">
-                  Continue
+                  Resume
                 </Button>
               </CardContent>
             </Card>

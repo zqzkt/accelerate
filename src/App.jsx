@@ -7,6 +7,7 @@ import Dashboard from "../pages/Dashboard";
 import Wrapper from "../pages/Wrapper";
 import Courses from "../pages/Courses";
 import InProgressCourses from "../pages/InProgressCourses";
+import Learn from "../pages/Learn";
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
         </Route>
         <Route path="/courses" element={<Courses />}></Route>
         <Route path="/in_progress_courses" element={<InProgressCourses/>}></Route>
+        <Route path="/learn" element={<Learn/>}></Route>
       </Routes>
     </BrowserRouter>
   );

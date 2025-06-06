@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import { CardHeader } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import supabase from "../../helper/supabaseClient";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function AllCoursesSummary() {
   const [user, setUser] = useState("");
   const [error, setError] = useState("");
   const [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUserID = async () => {
@@ -32,9 +34,10 @@ export default function AllCoursesSummary() {
     if (!user) return;
 
     const getAllCourses = async () => {
-      const { data, error } = await supabase.from("courses")
-      .select("*")
-      .range(0, 5)
+      const { data, error } = await supabase
+        .from("courses")
+        .select("*")
+        .range(0, 5);
 
       if (error) {
         console.log(error);
@@ -49,44 +52,53 @@ export default function AllCoursesSummary() {
   }, [user]);
 
   return (
-    <div style={{margin:'20px'}}>
+    <div style={{ margin: "20px" }}>
       {error}
-      <h2><Link to="/courses" style={{
-        color:"black",
-      textDecoration: "none",
-      "&:hover": { textDecoration: "none" },
-      "&:active": { textDecoration: "none" },
-      "&:visited": { textDecoration: "none" },
-      "&:focus": { textDecoration: "none" }
-    }}>Explore</Link></h2>
+      <h2>
+        <Link
+          to="/courses"
+          style={{
+            color: "black",
+            textDecoration: "none",
+            "&:hover": { textDecoration: "none" },
+            "&:active": { textDecoration: "none" },
+            "&:visited": { textDecoration: "none" },
+            "&:focus": { textDecoration: "none" },
+          }}
+        >
+          Explore
+        </Link>
+      </h2>
       <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
         {courses.map((course, index) => {
           return (
             <Card
               variant="outlined"
               key={index}
+              onClick={() => navigate("/courses/"+course.course_id)}
               sx={{
                 height: 220,
                 width: 200,
                 minWidth: 200,
                 maxWidth: 200,
-                marginRight: 2, // spacing between cards
+                marginRight: 2,
                 boxSizing: "border-box",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
                 border: "2px",
                 outlineStyle: "solid",
-                outlineColor:"#c5c3c9",
+                outlineColor: "#c5c3c9",
+                cursor: "pointer",
                 "&:hover": {
-                  boxShadow: 6, // MUI shadow level
+                  boxShadow: 6,
                   transform: "translateY(-4px) scale(1.03)",
                   borderColor: "gray",
                 },
               }}
             >
-              <CardHeader title={course.title}></CardHeader>
-              <CardContent>Learn More</CardContent>
+              <CardHeader title={course.title} titleTypographyProps={{ fontSize: '1rem', fontWeight:"700" }}></CardHeader>
+              <CardContent>{course.description}</CardContent>
             </Card>
           );
         })}
