@@ -11,11 +11,11 @@ export default function Courses() {
       const { data, error } = await supabase.from("courses").select("*");
 
       if (error) {
-        console.log(error);
+        // console.log(error);
       }
       if (data) {
         setCourses(data);
-        console.log(data);
+        // console.log(data);
       }
     };
 
@@ -45,6 +45,7 @@ export default function Courses() {
                 border: "2px",
                 outlineStyle: "solid",
                 outlineColor: "#c5c3c9",
+                cursor: "pointer",
                 "&:hover": {
                   boxShadow: 6, // MUI shadow level
                   transform: "translateY(-4px) scale(1.03)",
@@ -52,8 +53,8 @@ export default function Courses() {
                 },
               }}
             >
-              <CardHeader title={course.title}></CardHeader>
-              <CardContent>Learn More</CardContent>
+              <CardHeader disableTypography title={course.title} Typography={{ fontSize: '1rem', fontWeight:"700" }} sx={{}}></CardHeader>
+              <CardContent></CardContent>
             </Card>
           );
         })}

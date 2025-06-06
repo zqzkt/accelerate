@@ -98,7 +98,7 @@ export default function InProgressCoursesSummary() {
               <CardContent>
                 <ProgressBar progress={course.progress} />
                 <Button variant="contained" color="secondary">
-                  Continue
+                  Resume
                 </Button>
               </CardContent>
             </Card>

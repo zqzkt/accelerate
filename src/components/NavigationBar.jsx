@@ -9,8 +9,8 @@ import ProfileDrawer from "./ProfileDrawer";
 
 export default function Navbar() {
   return (
-    <Box sx={{ flexGrow: 1, backgroundColor: "white" }}>
-      <AppBar position="sticky" color="black">
+    <Box sx={{ flexGrow: 1, backgroundColor: "white"}}>
+      <AppBar position="sticky" color="black" sx={{boxShadow: "none", borderBottom:"solid 1px #c5c3c9"}}>
         <Toolbar>
           <Typography variant="h5" component="div" sx={{ mr: 2 }}>
             <Link
