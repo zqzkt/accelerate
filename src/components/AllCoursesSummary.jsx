@@ -71,11 +71,12 @@ export default function AllCoursesSummary() {
       </h2>
       <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
         {courses.map((course, index) => {
+          
           return (
+            <Link to={`/courses/${course.course_id}`} target="_blank">
             <Card
               variant="outlined"
               key={index}
-              onClick={() => navigate("/courses/"+course.course_id)}
               sx={{
                 height: 220,
                 width: 200,
@@ -100,6 +101,7 @@ export default function AllCoursesSummary() {
               <CardHeader title={course.title} titleTypographyProps={{ fontSize: '1rem', fontWeight:"700" }}></CardHeader>
               <CardContent>{course.description}</CardContent>
             </Card>
+            </Link>
           );
         })}
       </Box>
