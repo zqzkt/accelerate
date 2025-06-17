@@ -71,36 +71,54 @@ export default function AllCoursesSummary() {
       </h2>
       <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
         {courses.map((course, index) => {
-          
           return (
             <Link to={`/courses/${course.course_id}`} target="_blank">
-            <Card
-              variant="outlined"
-              key={index}
-              sx={{
-                height: 220,
-                width: 200,
-                minWidth: 200,
-                maxWidth: 200,
-                marginRight: 2,
-                boxSizing: "border-box",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                border: "2px",
-                outlineStyle: "solid",
-                outlineColor: "#c5c3c9",
-                cursor: "pointer",
-                "&:hover": {
-                  boxShadow: 6,
-                  transform: "translateY(-4px) scale(1.03)",
-                  borderColor: "gray",
-                },
-              }}
-            >
-              <CardHeader title={course.title} titleTypographyProps={{ fontSize: '1rem', fontWeight:"700" }}></CardHeader>
-              <CardContent>{course.description}</CardContent>
-            </Card>
+              <Card
+                variant="outlined"
+                key={index}
+                sx={{
+                  height: 220,
+                  width: 200,
+                  minWidth: 200,
+                  maxWidth: 200,
+                  marginRight: 2,
+                  boxSizing: "border-box",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  border: "2px",
+                  outlineStyle: "solid",
+                  outlineColor: "#c5c3c9",
+                  cursor: "pointer",
+                  "&:hover": {
+                    boxShadow: 6,
+                    transform: "translateY(-4px) scale(1.03)",
+                    borderColor: "gray",
+                  },
+                }}
+              >
+                <CardHeader
+                disableTypography
+                  title={course.title}
+                   Typography={{ fontSize: "1rem", fontWeight: "700" }}
+                ></CardHeader>
+                <CardContent>
+                  <Box
+                    sx={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      fontSize: "0.9rem",
+                      lineHeight: 1.5,
+                      color: "text.secondary",
+                      fontWeight: "normal",
+                    }}
+                  >
+                    {course.description}
+                  </Box>
+                </CardContent>
+              </Card>
             </Link>
           );
         })}
