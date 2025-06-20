@@ -2,8 +2,7 @@ import { useParams } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
 import supabase from "../../helper/supabaseClient";
 import { react, useState, useEffect } from "react";
-import { Box, Card, CardContent, CardHeader, Button } from "@mui/material";
-import { Key } from "@mui/icons-material";
+import { Box, Card, Button, CardContent } from "@mui/material";
 
 const CourseDetail = () => {
   const { course_id } = useParams();
@@ -57,6 +56,7 @@ const CourseDetail = () => {
       <NavigationBar />
       <Box sx={{ margin: "20px" }}>
         <h1>{course.title}</h1>
+        <Button variant="contained" size="large" color="success">Enroll</Button>
         <p>{course.description}</p>
         <h2>Modules</h2>
       </Box>
@@ -81,42 +81,18 @@ const CourseDetail = () => {
                 },
               }}
             >
-              {/* <CardHeader
-                title={mod.title}
-                titleTypographyProps={{fontWeight: "medium", fontFamily: "system-ui, Avenir, Helvetica, Arial, sans-serif;"}}
-              ></CardHeader> */}
               <Box
                 sx={{
                   fontWeight: "medium",
                   fontSize: "medium",
-                  display: "flex", // Make CardContent a flex container
-                  justifyContent: "space-between", // Spread title and button
-                  alignItems: "center",
-                  padding: "16px"
+                  paddingTop: "16px",
+                  paddingBottom: "0px",
+                  paddingLeft: "16px"
                 }}
               >
                 {mod.title}
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    sx={{
-                      "&:hover": {
-                        backgroundColor: "#9e9e9e",
-                      },
-                    }}
-                  >
-                    Take test to skip
-                  </Button>
-                </Box>
               </Box>
+              <CardContent sx={{paddingTop: "6px"}}>{mod.description}</CardContent>
             </Card>
           );
         })}
