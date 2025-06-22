@@ -10,6 +10,23 @@ const CourseDetail = () => {
 
   const [course, setCourse] = useState("");
   const [modules, setModules] = useState([]);
+  const [enrol, setEnrol] = useState(false);
+
+  const handleEnrol = async () => {
+    const { data, error } = await supabase
+    .from('course_progress')
+    .insert([{'user_id': 'user', 'course_id': course}])
+    .select()
+
+    if (data){
+      setEnrol(true)
+    }
+
+    if (error) {
+      console.log(error)
+    }
+
+  }
 
   useEffect(() => {
     if (!course_id) return;
@@ -55,8 +72,20 @@ const CourseDetail = () => {
     <div>
       <NavigationBar />
       <Box sx={{ margin: "20px" }}>
-        <h1>{course.title}</h1>
-        <Button variant="contained" size="large" color="success">Enroll</Button>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <h1 style={{ margin: 0 }}>
+            <span>{course.title}</span>
+          </h1>
+          {enrol? (<Button onClick={() => handleEnrol()} variant="contained" size="large" color="success" sx={{marginLeft: "20px"}}>
+            Enroll
+          </Button>) : (<p>Enrolled</p>)}
+        </Box>
+
         <p>{course.description}</p>
         <h2>Modules</h2>
       </Box>
@@ -73,7 +102,6 @@ const CourseDetail = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                justifyContent: "center",
                 outlineColor: "#c5c3c9",
                 "&:hover": {
                   boxShadow: 6, // MUI shadow level
@@ -87,12 +115,14 @@ const CourseDetail = () => {
                   fontSize: "medium",
                   paddingTop: "16px",
                   paddingBottom: "0px",
-                  paddingLeft: "16px"
+                  paddingLeft: "16px",
                 }}
               >
                 {mod.title}
               </Box>
-              <CardContent sx={{paddingTop: "6px"}}>{mod.description}</CardContent>
+              <CardContent sx={{ paddingTop: "6px" }}>
+                {mod.description}
+              </CardContent>
             </Card>
           );
         })}
