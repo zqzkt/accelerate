@@ -7,29 +7,17 @@ import AllCoursesSummary from "../src/components/AllCoursesSummary";
 import NavigationBar from "../src/components/NavigationBar";
 
 export default function Dashboard() {
-  
-
-  
-  
   return (
-      
-
     <div>
+      <NavigationBar position="sticky" />
 
-      <NavigationBar position="sticky"/>
-      
-      
       <div>
-      {/* <h1>Welcome to Accelerate!</h1> */}
-      <Box>
-        <InProgressCoursesSummary/>
-        <AllCoursesSummary/>
-        
-        
-      </Box>
-
-      
-    </div>
+        {/* <h1>Welcome to Accelerate!</h1> */}
+        <Box>
+          <InProgressCoursesSummary />
+          <AllCoursesSummary />
+        </Box>
+      </div>
     </div>
   );
-};
+}

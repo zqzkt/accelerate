@@ -4,32 +4,36 @@ import supabase from "../../helper/supabaseClient";
 import { react, useState, useEffect } from "react";
 import { Box, Card, Button, CardContent } from "@mui/material";
 
-const CourseDetail = () => {
+export default function CourseDetail() {
   const { course_id } = useParams();
   console.log("course_id: ", course_id);
 
   const [course, setCourse] = useState("");
   const [modules, setModules] = useState([]);
   const [enrol, setEnrol] = useState(false);
-
-  const handleEnrol = async () => {
-    const { data, error } = await supabase
-    .from('course_progress')
-    .insert([{'user_id': 'user', 'course_id': course}])
-    .select()
-
-    if (data){
-      setEnrol(true)
-    }
-
-    if (error) {
-      console.log(error)
-    }
-
-  }
+  const [user, setUser] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!course_id) return;
+    const getUserID = async () => {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error) {
+        console.log(error);
+        setError(error);
+      }
+      if (data) {
+        setUser(data.user.id);
+      }
+    };
+
+    getUserID();
+  }, []);
+
+  // console.log(user)
+
+  useEffect(() => {
+    if (!course_id || !user) return;
 
     const getCourse = async () => {
       const { data, error } = await supabase
@@ -44,7 +48,7 @@ const CourseDetail = () => {
 
       if (data) {
         setCourse(data[0]);
-        // console.log(data);
+        console.log(data);
       }
     };
 
@@ -64,9 +68,42 @@ const CourseDetail = () => {
       }
     };
 
+    const checkEnrol = async () => {
+      const { data, error } = await supabase
+        .from("course_progress")
+        .select("*")
+        .eq("user_id", user)
+        .eq("course_id", course_id);
+
+      if (data?.length > 0) {
+        setEnrol(true);
+      }
+
+      if (error) {
+        setEnrol(false);
+        // console.log(error);
+      }
+    };
+
     getCourse();
     getModules();
-  }, [course_id]);
+    checkEnrol();
+  }, [course_id, user]);
+
+  const handleEnrol = async () => {
+    const { data, error } = await supabase
+      .from("course_progress")
+      .insert([{ user_id: user, course_id: course_id }])
+      .select();
+
+    if (data) {
+      setEnrol(true);
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -81,9 +118,21 @@ const CourseDetail = () => {
           <h1 style={{ margin: 0 }}>
             <span>{course.title}</span>
           </h1>
-          {enrol? (<Button onClick={() => handleEnrol()} variant="contained" size="large" color="success" sx={{marginLeft: "20px"}}>
-            Enroll
-          </Button>) : (<p>Enrolled</p>)}
+          {!enrol ? (
+            <Button
+              onClick={() => handleEnrol(true)}
+              variant="contained"
+              size="large"
+              color="success"
+              sx={{ marginLeft: "20px" }}
+            >
+              Enroll
+            </Button>
+          ) : (
+            <Button disabled variant="contained" size="large">
+              Enrolled!
+            </Button>
+          )}
         </Box>
 
         <p>{course.description}</p>
@@ -129,6 +178,4 @@ const CourseDetail = () => {
       </Box>
     </div>
   );
-};
-
-export default CourseDetail;
+}

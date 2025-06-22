@@ -23,12 +23,29 @@ const CourseProgressDetail = () => {
     const updateModules = async (mod_id) => {
       const { data, error } = await supabase
         .from("mod_progress")
-        .update({"completed":true})
+        .update({ completed: true })
         .eq("mod_id", mod_id);
     };
 
-    updateModules(mod_id)
+    updateModules(mod_id);
   };
+
+  useEffect(() => {
+    const getUserID = async () => {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error) {
+        console.log(error);
+        setError(error);
+      }
+      if (data) {
+        setUser(data.user.id);
+        // console.log(user)
+      }
+    };
+
+    getUserID();
+  }, []);
 
   useEffect(() => {
     if (!course_id) return;
@@ -161,4 +178,4 @@ const CourseProgressDetail = () => {
   );
 };
 
-export default CourseDetail;
+export default CourseProgressDetail;
