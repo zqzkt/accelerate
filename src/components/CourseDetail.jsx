@@ -98,10 +98,29 @@ export default function CourseDetail() {
 
     if (data) {
       setEnrol(true);
+      modules.forEach(mod => {
+        handleModEnrol(mod)()
+      })
     }
 
     if (error) {
       console.log(error);
+    }
+  };
+
+  const handleModEnrol = (mod) => async () => {
+    const { data, error } = await supabase
+      .from("mod_progress")
+      .insert([{ "mod_id":  mod.mod_id, "user_id": user, "sequence": mod.sequence}])
+      .select();
+
+    if (data){
+      console.log(data)
+    }
+
+    if (error){
+      console.log(error)
+      return;
     }
   };
 
