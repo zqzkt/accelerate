@@ -1,9 +1,10 @@
-import react from 'react';
+import react from "react";
+import CourseProgressDetail from "../src/components/CourseProgressDetail";
 
-export default function Learn(){
-    return(
-        <div>
-            Learn
-        </div>
-    )
+export default function Learn() {
+  return (
+    <div>
+      <CourseProgressDetail />
+    </div>
+  );
 }

@@ -6,7 +6,7 @@ import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import Wrapper from "../pages/Wrapper";
 import Courses from "../pages/Courses";
-import InProgressCourses from "../pages/InProgressCourses";
+import MyProgress from "../pages/MyProgress";
 import Learn from "../pages/Learn";
 import CourseDetail from "./components/CourseDetail";
 
@@ -34,8 +34,8 @@ export default function App() {
           /* dashboard */
         </Route>
         <Route path="/courses" element={<Courses />}></Route>
-        <Route path="/in_progress_courses" element={<InProgressCourses/>}></Route>
-        <Route path="/learn" element={<Learn/>}></Route>
+        <Route path="/in_progress_courses" element={<MyProgress/>}></Route>
+        <Route path="/learn/:course_id" element={<Learn/>}></Route>
         <Route path="/courses/:course_id" element={<CourseDetail />} />
       </Routes>
     </BrowserRouter>
