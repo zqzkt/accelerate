@@ -6,29 +6,15 @@ import { Box, Card, Button } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-const CourseProgressDetail = () => {
+export default function CourseProgressDetail() {
   const { course_id } = useParams();
   console.log("course_id: ", course_id);
 
   const [course, setCourse] = useState("");
   const [modules, setModules] = useState([]);
   const [checkButtons, setCheckButtons] = useState({});
-
-  const handleCheck = (mod_id) => {
-    setCheckButtons((prev) => ({
-      ...prev,
-      [mod_id]: true,
-    }));
-
-    const updateModules = async (mod_id) => {
-      const { data, error } = await supabase
-        .from("mod_progress")
-        .update({ completed: true })
-        .eq("mod_id", mod_id);
-    };
-
-    updateModules(mod_id);
-  };
+  const [user, setUser] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const getUserID = async () => {
@@ -40,15 +26,16 @@ const CourseProgressDetail = () => {
       }
       if (data) {
         setUser(data.user.id);
-        // console.log(user)
       }
     };
 
     getUserID();
   }, []);
 
+  console.log("User: ", user);
+
   useEffect(() => {
-    if (!course_id) return;
+    if (!course_id || !user) return;
 
     const getCourse = async () => {
       const { data, error } = await supabase
@@ -63,15 +50,21 @@ const CourseProgressDetail = () => {
 
       if (data) {
         setCourse(data[0]);
-        // console.log(data);
+        console.log(data[0]);
       }
     };
 
     const getModules = async () => {
       const { data, error } = await supabase
         .from("modules")
-        .select("*")
-        .eq("course_id", course_id);
+        .select(
+          `
+      *,
+      mod_progress!inner(user_id, progress, completed)
+    `
+        )
+        .eq("course_id", course_id)
+        .eq("mod_progress.user_id", user);
 
       if (error) {
         console.log(error);
@@ -79,13 +72,38 @@ const CourseProgressDetail = () => {
       }
       if (data) {
         setModules(data);
-        console.log(data);
+        console.log("Modules:", data);
       }
     };
 
     getCourse();
     getModules();
-  }, [course_id]);
+  }, [course_id, user]);
+
+  const handleCheck = (mod_id) => {
+    setCheckButtons((prev) => ({
+      ...prev,
+      [mod_id]: true,
+    }));
+
+    const updateModules = async (mod_id) => {
+      const { data, error } = await supabase
+        .from("mod_progress")
+        .update({ completed: true })
+        .eq("mod_id", mod_id)
+        .eq("user_id", user);
+
+      if (data) {
+        console.log(data);
+      }
+
+      if (error) {
+        console.log(error);
+      }
+    };
+
+    updateModules(mod_id);
+  };
 
   return (
     <div>
@@ -97,6 +115,7 @@ const CourseProgressDetail = () => {
       </Box>
       <Box>
         {modules.map((mod, index) => {
+          console.log(mod);
           return (
             <Card
               variant="outlined"
@@ -108,7 +127,6 @@ const CourseProgressDetail = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                justifyContent: "center",
                 outlineColor: "#c5c3c9",
                 "&:hover": {
                   boxShadow: 6, // MUI shadow level
@@ -120,8 +138,8 @@ const CourseProgressDetail = () => {
                 sx={{
                   fontWeight: "medium",
                   fontSize: "medium",
-                  display: "flex", // Make CardContent a flex container
-                  justifyContent: "space-between", // Spread title and button
+                  display: "flex",
+                  justifyContent: "space-between",
                   alignItems: "center",
                   padding: "16px",
                 }}
@@ -135,7 +153,7 @@ const CourseProgressDetail = () => {
                   }}
                 >
                   <div>&nbsp;</div>
-                  {!checkButtons[mod.mod_id] ? (
+                  {!mod.mod_progress[0].completed ? (
                     <Box>
                       <Button
                         variant="contained"
@@ -176,6 +194,4 @@ const CourseProgressDetail = () => {
       </Box>
     </div>
   );
-};
-
-export default CourseProgressDetail;
+}
