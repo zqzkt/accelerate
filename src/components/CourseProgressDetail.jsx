@@ -80,6 +80,22 @@ export default function CourseProgressDetail() {
     getModules();
   }, [course_id, user]);
 
+  // useEffect(() => {
+  //   if (!modules || modules.length === 0) return;
+
+  //   setFirstNullProgressIndex(
+  //     modules.findIndex((m) => m.mod_progress?.[0]?.progress === null)
+  //   );
+
+  //   setInProgressIndex(
+  //     modules.findIndex(
+  //       (m) =>
+  //         m.mod_progress?.[0]?.progress >= 0 &&
+  //         m.mod_progress?.[0]?.progress !== 100
+  //     )
+  //   );
+  // }, [modules]);
+
   const handleCheck = (mod_id) => {
     setCheckButtons((prev) => ({
       ...prev,
@@ -89,7 +105,7 @@ export default function CourseProgressDetail() {
     const updateModules = async (mod_id) => {
       const { data, error } = await supabase
         .from("mod_progress")
-        .update({ completed: true })
+        .update({ completed: true, progress: 100 })
         .eq("mod_id", mod_id)
         .eq("user_id", user);
 
@@ -105,6 +121,24 @@ export default function CourseProgressDetail() {
     updateModules(mod_id);
   };
 
+  const updateProgress = async (mod_id) => {
+    const { data, error } = await supabase
+      .from("mod_progress")
+      .update({ progress: 0 })
+      .eq("mod_id", mod_id)
+      .eq("user_id", user)
+      .select();
+
+    if (data) {
+      console.log(data);
+    }
+
+    if (error) {
+      console.log(error);
+    }
+
+  };
+
   return (
     <div>
       <NavigationBar />
@@ -115,7 +149,10 @@ export default function CourseProgressDetail() {
       </Box>
       <Box>
         {modules.map((mod, index) => {
-          console.log(mod);
+          console.log("Mod:", mod);
+          const firstNullProgressIndex = modules.findIndex(
+            (m) => m.mod_progress?.[0]?.progress === null
+          );
           return (
             <Card
               variant="outlined"
@@ -129,7 +166,7 @@ export default function CourseProgressDetail() {
                 justifyContent: "space-between",
                 outlineColor: "#c5c3c9",
                 "&:hover": {
-                  boxShadow: 6, // MUI shadow level
+                  boxShadow: 6,
                   borderColor: "#c5c3c9",
                 },
               }}
@@ -153,9 +190,27 @@ export default function CourseProgressDetail() {
                   }}
                 >
                   <div>&nbsp;</div>
-                  {!mod.mod_progress[0].completed ? (
-                    <Box>
+                  {!mod.mod_progress[0].completed &&
+                  !checkButtons[mod.mod_id] ? (
+                    <Box display="flex" gap={1}>
+                      {index === firstNullProgressIndex && (
+                        <Button
+                          onClick={() => updateProgress(mod.mod_id)}
+                          variant="contained"
+                          color="success"
+                          size="small"
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: "#9e9e9e",
+                            },
+                          }}
+                        >
+                          start
+                        </Button>
+                      )}
+
                       <Button
+                        onClick={() => handleCheck(mod.mod_id)}
                         variant="contained"
                         color="secondary"
                         size="small"
@@ -171,11 +226,6 @@ export default function CourseProgressDetail() {
                         onClick={() => handleCheck(mod.mod_id)}
                         color="success"
                         size="small"
-                        sx={{
-                          "&:hover": {
-                            backgroundColor: "#9e9e9e",
-                          },
-                        }}
                       >
                         <CheckCircleOutlineIcon />
                       </Button>
