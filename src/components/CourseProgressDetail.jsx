@@ -1,10 +1,12 @@
-import { useParams } from "react-router-dom";
+import { data, useParams } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
 import supabase from "../../helper/supabaseClient";
 import { react, useState, useEffect } from "react";
 import { Box, Card, Button } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 export default function CourseProgressDetail() {
   const { course_id } = useParams();
@@ -12,6 +14,7 @@ export default function CourseProgressDetail() {
 
   const [course, setCourse] = useState("");
   const [modules, setModules] = useState([]);
+  // const [sortedModules, setsortedModules] = useState([]);
   const [checkButtons, setCheckButtons] = useState({});
   const [user, setUser] = useState("");
   const [error, setError] = useState("");
@@ -60,7 +63,7 @@ export default function CourseProgressDetail() {
         .select(
           `
       *,
-      mod_progress!inner(user_id, progress, completed)
+      mod_progress!inner(user_id, progress, completed, sequence)
     `
         )
         .eq("course_id", course_id)
@@ -71,8 +74,11 @@ export default function CourseProgressDetail() {
         return;
       }
       if (data) {
-        setModules(data);
-        console.log("Modules:", data);
+        setModules(
+          data.sort(
+            (a, b) => a.mod_progress[0].sequence - b.mod_progress[0].sequence
+          )
+        );
       }
     };
 
@@ -136,7 +142,64 @@ export default function CourseProgressDetail() {
     if (error) {
       console.log(error);
     }
+  };
 
+  const moveModule = async (cur_mod, cur_index, target_index) => {
+    target_mod = modules[target_index];
+
+    const cur_seq = cur_mod.sequence;
+    const target_seq = target_mod.sequence;
+
+    if (!target_mod) return;
+
+    const [{ error: error1 }, { error: error2 }] = await Promise.all([
+      supabase
+        .from("modules")
+        .update({ sequence: target_seq })
+        .eq("mod_id", cur_mod)
+        .select(),
+      supabase
+        .from("modules")
+        .update({ sequence: cur_seq })
+        .eq("mod_id", target_mod)
+        .select(),
+    ]);
+
+    if (error1 || error2) {
+      console.error("Failed to swap module sequences:", error1 || error2);
+      return;
+    }
+
+    /* Update local modules */
+    setModules((prev) => {
+      prev.map((mod) => {
+        if (mod.mod_id === cur_mod) {
+          return {
+            ...mod,
+            mod_progress: [
+              {
+                ...mod.mod_progress,
+                sequence: cur_seq,
+              },
+            ],
+          };
+        }
+
+        if (mod.mod_id === target_mod) {
+          return {
+            ...mod,
+            mod_progress: [
+              {
+                ...mod.mod_progress[0],
+                sequence: target_seq,
+              },
+            ],
+          };
+        }
+
+        return mod;
+      });
+    });
   };
 
   return (
@@ -149,7 +212,7 @@ export default function CourseProgressDetail() {
       </Box>
       <Box>
         {modules.map((mod, index) => {
-          console.log("Mod:", mod);
+          // console.log("Mod:", mod);
           const firstNullProgressIndex = modules.findIndex(
             (m) => m.mod_progress?.[0]?.progress === null
           );
@@ -158,16 +221,18 @@ export default function CourseProgressDetail() {
               variant="outlined"
               key={mod.mod_id}
               sx={{
+                // color: "white",
                 marginLeft: 10,
                 marginRight: 10,
                 boxSizing: "border-box",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                outlineColor: "#c5c3c9",
+                outlineColor: "white",
+                backgroundColor: "transparent",
                 "&:hover": {
                   boxShadow: 6,
-                  borderColor: "#c5c3c9",
+                  borderColor: "white",
                 },
               }}
             >
@@ -179,6 +244,8 @@ export default function CourseProgressDetail() {
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "16px",
+                  backgroundColor: "black",
+                  color: "white",
                 }}
               >
                 {mod.title}
@@ -193,6 +260,22 @@ export default function CourseProgressDetail() {
                   {!mod.mod_progress[0].completed &&
                   !checkButtons[mod.mod_id] ? (
                     <Box display="flex" gap={1}>
+                      {index > 0 && (
+                        <Button
+                          size="small"
+                          onClick={() => moveModule(mod, index, index - 1)}
+                        >
+                          <ArrowUpwardIcon />
+                        </Button>
+                      )}
+                      {index < modules.length - 1 && (
+                        <Button
+                          size="small"
+                          onClick={() => moveModule(mod, index, index + 1)}
+                        >
+                          <ArrowDownwardIcon />
+                        </Button>
+                      )}
                       {index === firstNullProgressIndex && (
                         <Button
                           onClick={() => updateProgress(mod.mod_id)}
@@ -221,13 +304,6 @@ export default function CourseProgressDetail() {
                         }}
                       >
                         Take test to skip
-                      </Button>
-                      <Button
-                        onClick={() => handleCheck(mod.mod_id)}
-                        color="success"
-                        size="small"
-                      >
-                        <CheckCircleOutlineIcon />
                       </Button>
                     </Box>
                   ) : (

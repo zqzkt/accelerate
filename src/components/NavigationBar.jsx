@@ -9,29 +9,44 @@ import ProfileDrawer from "./ProfileDrawer";
 
 export default function Navbar() {
   return (
-    <Box sx={{ flexGrow: 1, backgroundColor: "white"}}>
-      <AppBar position="sticky" color="black" sx={{boxShadow: "none", borderBottom:"solid 1px #c5c3c9"}}>
+    <Box sx={{ flexGrow: 1, backgroundColor: "black" }}>
+      <AppBar
+        position="sticky"
+        sx={{
+          boxShadow: "none",
+          borderBottom: "solid 1px gray",
+          backgroundColor: "black",
+        }}
+      >
         <Toolbar>
-          <Typography variant="h5" component="div" sx={{ mr: 2 }}>
-            <Link
-              to="/dashboard"
-              style={{
-                color: "black",
-                textDecoration: "none",
-                "&:hover": { textDecoration: "none" },
-                "&:active": { textDecoration: "none" },
-                "&:visited": { textDecoration: "none" },
-                "&:focus": { textDecoration: "none" },
-              }}
-            >
-              Accelerate
-            </Link>
-          </Typography>
-          <Button color="inherit">
+          <Button sx={{ "&:hover": { backgroundColor: "#32174d" } }}>
+            <Typography variant="h5" component="div">
+              <Link
+                to="/dashboard"
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                  "&:hover": {
+                    textDecoration: "none",
+                  },
+                  "&:active": { textDecoration: "none" },
+                  "&:visited": { textDecoration: "none" },
+                  "&:focus": { textDecoration: "none" },
+                }}
+              >
+                Accelerate
+              </Link>
+            </Typography>
+          </Button>
+
+          <Button
+            color="inherit"
+            sx={{ "&:hover": { backgroundColor: "#32174d" } }}
+          >
             <Link
               to="/in_progress_courses"
               style={{
-                color: "black",
+                color: "white",
                 textDecoration: "none",
                 "&:hover": { textDecoration: "none" },
                 "&:active": { textDecoration: "none" },
@@ -42,11 +57,14 @@ export default function Navbar() {
               My Progress
             </Link>
           </Button>
-          <Button color="inherit">
+          <Button
+            color="inherit"
+            sx={{ "&:hover": { backgroundColor: "#32174d" } }}
+          >
             <Link
               to="/courses"
               style={{
-                color: "black",
+                color: "white",
                 textDecoration: "none",
                 "&:hover": { textDecoration: "none" },
                 "&:active": { textDecoration: "none" },
@@ -57,7 +75,7 @@ export default function Navbar() {
               All Courses
             </Link>
           </Button>
-          <ProfileDrawer/>
+          <ProfileDrawer />
         </Toolbar>
       </AppBar>
     </Box>

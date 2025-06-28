@@ -77,6 +77,8 @@ export default function AllCoursesSummary() {
                 variant="outlined"
                 key={index}
                 sx={{
+                  backgroundColor: "transparent",
+                  color: "white",
                   height: 220,
                   width: 200,
                   minWidth: 200,
@@ -86,21 +88,26 @@ export default function AllCoursesSummary() {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
-                  border: "2px",
-                  outlineStyle: "solid",
-                  outlineColor: "#c5c3c9",
+                  border: "1px solid gray",
                   cursor: "pointer",
                   "&:hover": {
                     boxShadow: 6,
-                    transform: "translateY(-4px) scale(1.03)",
-                    borderColor: "gray",
+                    transform: "translateY(-2px) scale(1.03)",
+                    backgroundColor: "#cae5ff",
+                    color: "black",
                   },
                 }}
               >
                 <CardHeader
-                disableTypography
+                  disableTypography
                   title={course.title}
-                   Typography={{ fontSize: "1rem", fontWeight: "700" }}
+                  sx={{
+                    fontSize: "1rem",
+                    fontWeight: "700",
+                    "&:hover": {
+                      color: "black",
+                    },
+                  }}
                 ></CardHeader>
                 <CardContent>
                   <Box
@@ -111,7 +118,6 @@ export default function AllCoursesSummary() {
                       overflow: "hidden",
                       fontSize: "0.9rem",
                       lineHeight: 1.5,
-                      color: "text.secondary",
                       fontWeight: "normal",
                     }}
                   >
