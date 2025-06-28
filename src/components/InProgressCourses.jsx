@@ -67,7 +67,7 @@ export default function InProgressCourses() {
           My Courses
         </Link>
       </h2>
-      <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
         {courses.map((course, index) => {
           console.log("Progress:", course.progress);
           return (
@@ -76,7 +76,7 @@ export default function InProgressCourses() {
               key={index}
               sx={{
                 color: "white",
-                backgroundColor: "transparent",
+                backgroundColor: "#ffffff1a",
                 height: 220,
                 width: 200,
                 minWidth: 200,
@@ -86,11 +86,10 @@ export default function InProgressCourses() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                border: "1px solid gray",
+                border: "1px solid #ffffff1a",
                 "&:hover": {
                   boxShadow: 6,
-                  transform: "translateY(-2px) scale(1.03)",
-                  borderColor: "gray",
+                  transform: "translateY(-2px) scale(1.02)",
                   backgroundColor: "#cae5ff",
                   color: "black",
                 },

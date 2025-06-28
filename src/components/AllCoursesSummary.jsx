@@ -58,7 +58,7 @@ export default function AllCoursesSummary() {
         <Link
           to="/courses"
           style={{
-            color: "black",
+            color: "white",
             textDecoration: "none",
             "&:hover": { textDecoration: "none" },
             "&:active": { textDecoration: "none" },
@@ -69,7 +69,7 @@ export default function AllCoursesSummary() {
           Explore
         </Link>
       </h2>
-      <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
         {courses.map((course, index) => {
           return (
             <Link to={`/courses/${course.course_id}`} target="_blank">
@@ -77,7 +77,7 @@ export default function AllCoursesSummary() {
                 variant="outlined"
                 key={index}
                 sx={{
-                  backgroundColor: "transparent",
+                  backgroundColor: "#ffffff1a",
                   color: "white",
                   height: 220,
                   width: 200,
@@ -88,11 +88,11 @@ export default function AllCoursesSummary() {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
-                  border: "1px solid gray",
+                  border: "1px solid #ffffff1a",
                   cursor: "pointer",
                   "&:hover": {
                     boxShadow: 6,
-                    transform: "translateY(-2px) scale(1.03)",
+                    transform: "translateY(-2px) scale(1.02)",
                     backgroundColor: "#cae5ff",
                     color: "black",
                   },

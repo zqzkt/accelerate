@@ -221,15 +221,16 @@ export default function CourseProgressDetail() {
               variant="outlined"
               key={mod.mod_id}
               sx={{
-                // color: "white",
+                color: "white",
+
                 marginLeft: 10,
                 marginRight: 10,
                 boxSizing: "border-box",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                outlineColor: "white",
-                backgroundColor: "transparent",
+                border: "1px solid #ffffff1a",
+                backgroundColor: "#ffffff05",
                 "&:hover": {
                   boxShadow: 6,
                   borderColor: "white",
@@ -244,7 +245,8 @@ export default function CourseProgressDetail() {
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "16px",
-                  backgroundColor: "black",
+                  backgroundColor: "#ffffff05",
+                  // border: "1px"
                   color: "white",
                 }}
               >
