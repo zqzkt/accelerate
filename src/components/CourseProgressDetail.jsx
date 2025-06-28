@@ -10,11 +10,8 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 export default function CourseProgressDetail() {
   const { course_id } = useParams();
-  console.log("course_id: ", course_id);
-
   const [course, setCourse] = useState("");
   const [modules, setModules] = useState([]);
-  // const [sortedModules, setsortedModules] = useState([]);
   const [checkButtons, setCheckButtons] = useState({});
   const [user, setUser] = useState("");
   const [error, setError] = useState("");
@@ -35,8 +32,6 @@ export default function CourseProgressDetail() {
     getUserID();
   }, []);
 
-  console.log("User: ", user);
-
   useEffect(() => {
     if (!course_id || !user) return;
 
@@ -47,7 +42,7 @@ export default function CourseProgressDetail() {
         .eq("course_id", course_id);
 
       if (error) {
-        console.log(error);
+        console.error(error);
         return;
       }
 
@@ -70,7 +65,7 @@ export default function CourseProgressDetail() {
         .eq("mod_progress.user_id", user);
 
       if (error) {
-        console.log(error);
+        console.error(error);
         return;
       }
       if (data) {
@@ -85,22 +80,6 @@ export default function CourseProgressDetail() {
     getCourse();
     getModules();
   }, [course_id, user]);
-
-  // useEffect(() => {
-  //   if (!modules || modules.length === 0) return;
-
-  //   setFirstNullProgressIndex(
-  //     modules.findIndex((m) => m.mod_progress?.[0]?.progress === null)
-  //   );
-
-  //   setInProgressIndex(
-  //     modules.findIndex(
-  //       (m) =>
-  //         m.mod_progress?.[0]?.progress >= 0 &&
-  //         m.mod_progress?.[0]?.progress !== 100
-  //     )
-  //   );
-  // }, [modules]);
 
   const handleCheck = (mod_id) => {
     setCheckButtons((prev) => ({
@@ -120,7 +99,7 @@ export default function CourseProgressDetail() {
       }
 
       if (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
@@ -140,66 +119,68 @@ export default function CourseProgressDetail() {
     }
 
     if (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   const moveModule = async (cur_mod, cur_index, target_index) => {
-    target_mod = modules[target_index];
+    const target_mod = modules[target_index];
 
-    const cur_seq = cur_mod.sequence;
-    const target_seq = target_mod.sequence;
+    const cur_seq = cur_mod.mod_progress[0].sequence;
+    const target_seq = target_mod.mod_progress[0].sequence;
 
     if (!target_mod) return;
 
     const [{ error: error1 }, { error: error2 }] = await Promise.all([
       supabase
-        .from("modules")
+        .from("mod_progress")
         .update({ sequence: target_seq })
-        .eq("mod_id", cur_mod)
+        .eq("mod_id", cur_mod.mod_id)
+        .eq("user_id", user)
         .select(),
       supabase
-        .from("modules")
+        .from("mod_progress")
         .update({ sequence: cur_seq })
-        .eq("mod_id", target_mod)
+        .eq("mod_id", target_mod.mod_id)
+        .eq("user_id", user)
         .select(),
     ]);
 
     if (error1 || error2) {
       console.error("Failed to swap module sequences:", error1 || error2);
-      return;
-    }
+    } else console.log("Successfully swapped.");
 
     /* Update local modules */
-    setModules((prev) => {
-      prev.map((mod) => {
-        if (mod.mod_id === cur_mod) {
-          return {
-            ...mod,
-            mod_progress: [
-              {
-                ...mod.mod_progress,
-                sequence: cur_seq,
-              },
-            ],
-          };
-        }
+    setModules((prev) =>
+      prev
+        .map((mod) => {
+          if (mod.mod_id === cur_mod.mod_id) {
+            return {
+              ...mod,
+              mod_progress: [
+                {
+                  ...mod.mod_progress[0],
+                  sequence: target_seq,
+                },
+              ],
+            };
+          }
 
-        if (mod.mod_id === target_mod) {
-          return {
-            ...mod,
-            mod_progress: [
-              {
-                ...mod.mod_progress[0],
-                sequence: target_seq,
-              },
-            ],
-          };
-        }
-
-        return mod;
-      });
-    });
+          if (mod.mod_id === target_mod.mod_id) {
+            return {
+              ...mod,
+              mod_progress: [
+                {
+                  ...mod.mod_progress[0],
+                  sequence: cur_seq,
+                },
+              ],
+            };
+          }
+          return mod;
+        })
+        .sort((a, b) => a.mod_progress[0].sequence - b.mod_progress[0].sequence)
+    );
   };
 
   return (
@@ -212,7 +193,6 @@ export default function CourseProgressDetail() {
       </Box>
       <Box>
         {modules.map((mod, index) => {
-          // console.log("Mod:", mod);
           const firstNullProgressIndex = modules.findIndex(
             (m) => m.mod_progress?.[0]?.progress === null
           );
@@ -246,7 +226,6 @@ export default function CourseProgressDetail() {
                   alignItems: "center",
                   padding: "16px",
                   backgroundColor: "#ffffff05",
-                  // border: "1px"
                   color: "white",
                 }}
               >
