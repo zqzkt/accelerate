@@ -57,7 +57,6 @@ export default function InProgressCourses() {
         <Link
           to="/in_progress_courses"
           style={{
-            color: "black",
             textDecoration: "none",
             "&:hover": { textDecoration: "none" },
             "&:active": { textDecoration: "none" },
@@ -76,26 +75,38 @@ export default function InProgressCourses() {
               variant="outlined"
               key={index}
               sx={{
+                color: "white",
+                backgroundColor: "transparent",
                 height: 220,
                 width: 200,
                 minWidth: 200,
                 maxWidth: 200,
-                marginRight: 2, // spacing between cards
+                marginRight: 2,
                 boxSizing: "border-box",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                border: "2px",
-                outlineStyle: "solid",
-                outlineColor: "#c5c3c9",
+                border: "1px solid gray",
                 "&:hover": {
-                  boxShadow: 6, // MUI shadow level
-                  transform: "translateY(-4px) scale(1.03)",
+                  boxShadow: 6,
+                  transform: "translateY(-2px) scale(1.03)",
                   borderColor: "gray",
+                  backgroundColor: "#cae5ff",
+                  color: "black",
                 },
               }}
             >
-              <CardHeader title={course.courses.title}></CardHeader>
+              <CardHeader
+                title={course.courses.title}
+                disableTypography
+                sx={{
+                  fontSize: "1rem",
+                  fontWeight: "700",
+                  "&:hover": {
+                    color: "black",
+                  },
+                }}
+              ></CardHeader>
               <CardContent>
                 <ProgressBar progress={course.progress} />
                 <Link to={`/learn/${course.course_id}`} target="_blank">
