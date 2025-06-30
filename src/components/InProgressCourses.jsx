@@ -6,6 +6,7 @@ import { Box, Button } from "@mui/material";
 import ProgressBar from "./ProgressBar";
 import supabase from "../../helper/supabaseClient";
 import { Link } from "react-router-dom";
+import { AlignVerticalBottom } from "@mui/icons-material";
 
 export default function InProgressCourses() {
   const [error, setError] = useState("");
@@ -35,7 +36,7 @@ export default function InProgressCourses() {
     const getUserCourses = async () => {
       const { data, error } = await supabase
         .from("course_progress")
-        .select(`course_id, progress, courses (title)`)
+        .select(`course_id, progress, completed, courses (title)`)
         .eq("user_id", user);
 
       if (error) {
@@ -69,7 +70,8 @@ export default function InProgressCourses() {
       </h2>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         {courses.map((course, index) => {
-          console.log("Progress:", course.progress);
+          const isCompleted = course.completed;
+
           return (
             <Card
               variant="outlined"
@@ -89,42 +91,101 @@ export default function InProgressCourses() {
                 border: "1px solid #ffffff1a",
                 position: "relative",
                 transition: "all 0.3s ease",
-                "&:hover": {
+                "&:hover": !isCompleted && {
                   boxShadow: "0px 4px 20px rgba(255, 255, 255, 0.15)",
                   transform: "scale(1.02)",
                 },
-
-                // "&:before": {
-                //   background:
-                //     "radial-gradient(800px circle at 200px 100px #43ff640f transparent 40%)",
-                // },
               }}
             >
-              <CardHeader
-                title={course.courses.title}
-                disableTypography
+
+              <Box
                 sx={{
-                  fontSize: "1rem",
-                  fontWeight: "700",
-                  // "&:hover": {
-                  //   color: "black",
-                  // },
+                  filter: course.completed ? "grayscale(1)" : "none",
+                  opacity: course.completed ? 0.5 : 1,
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
                 }}
-              ></CardHeader>
-              <CardContent>
-                <ProgressBar progress={course.progress} />
-                <Link to={`/learn/${course.course_id}`} target="_blank">
-                  {Number(course.progress || 0) == 0 ? (
-                    <Button variant="contained" color="success">
-                      start
-                    </Button>
+              >
+                <CardHeader
+                  title={course.courses.title}
+                  disableTypography
+                  sx={{
+                    fontSize: "1rem",
+                    fontWeight: "700",
+                    color: "white",
+                  }}
+                />
+
+                <CardContent>
+                  {/* <Box sx={{ flexGrow: 1 }} /> */}
+
+                  {/* ✅ Progress bar */}
+                  <Box sx={{ mb: 1 }}>
+                    <ProgressBar progress={course.progress} />
+                  </Box>
+
+                  {Number(course.progress || 0) === 0 ? (
+                    <Link to={`/learn/${course.course_id}`} target="_blank">
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        color="success"
+                        size="small"
+                        sx={{
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            opacity: 0.7,
+                          },
+                        }}
+                      >
+                        start
+                      </Button>
+                    </Link>
+                  ) : !isCompleted ? (
+                    <div>
+                      <Link to={`/learn/${course.course_id}`} target="_blank">
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            backgroundColor: "#5a23b1",
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                              opacity: 0.7,
+                            },
+                          }}
+                        >
+                          Resume
+                        </Button>
+                      </Link>
+                    </div>
                   ) : (
-                    <Button variant="contained" color="secondary">
-                      Resume
-                    </Button>
+                    <Box>
+                      <Link to={`/learn/${course.course_id}`} target="_blank">
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            transition: "all 0.3s ease",
+                            "&:hover": {
+                              boxShadow:
+                                "0px 0px 8px 2px rgba(255,255,255,0.5)",
+                              backgroundColor: "#a5d86e",
+                              color: "black"
+                            },
+                          }}
+                        >
+                          View
+                        </Button>
+                      </Link>
+                    </Box>
                   )}
-                </Link>
-              </CardContent>
+                </CardContent>
+              </Box>
             </Card>
           );
         })}

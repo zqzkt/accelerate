@@ -13,6 +13,7 @@ export default function CourseDetail() {
   const [enrol, setEnrol] = useState(false);
   const [user, setUser] = useState("");
   const [error, setError] = useState("");
+  const [showButton, setshowButton] = useState(true);
 
   useEffect(() => {
     const getUserID = async () => {
@@ -75,11 +76,12 @@ export default function CourseDetail() {
 
       if (data?.length > 0) {
         setEnrol(true);
+        setshowButton(false);
       }
 
       if (error) {
-        setEnrol(false);
-        // console.log(error);
+        // setEnrol(false);
+        console.log(error);
       }
     };
 
@@ -96,9 +98,10 @@ export default function CourseDetail() {
 
     if (data) {
       setEnrol(true);
-      modules.forEach(mod => {
-        handleModEnrol(mod)()
-      })
+      setshowButton(false);
+      modules.forEach((mod) => {
+        handleModEnrol(mod)();
+      });
     }
 
     if (error) {
@@ -109,15 +112,22 @@ export default function CourseDetail() {
   const handleModEnrol = (mod) => async () => {
     const { data, error } = await supabase
       .from("mod_progress")
-      .insert([{ "mod_id":  mod.mod_id, "user_id": user, "sequence": mod.sequence, "course_id": course_id}])
+      .insert([
+        {
+          mod_id: mod.mod_id,
+          user_id: user,
+          sequence: mod.sequence,
+          course_id: course_id,
+        },
+      ])
       .select();
 
-    if (data){
-      console.log(data)
+    if (data) {
+      console.log(data);
     }
 
-    if (error){
-      console.log(error)
+    if (error) {
+      console.log(error);
       return;
     }
   };
@@ -135,19 +145,35 @@ export default function CourseDetail() {
           <h1 style={{ margin: 0 }}>
             <span>{course.title}</span>
           </h1>
-          {!enrol ? (
+          {showButton ? (
             <Button
-              onClick={() => handleEnrol(true)}
+              onClick={() => handleEnrol()}
               variant="contained"
-              size="large"
               color="success"
-              sx={{ marginLeft: "20px" }}
+              size="large"
+              sx={{
+                minWidth: "130px",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  opacity: 0.7,
+                },
+              }}
             >
-              Enroll
+              Enrol
             </Button>
           ) : (
-            <Button disabled variant="contained" size="large">
-              Enrolled!
+            <Button
+              variant="contained"
+              color="success"
+              size="large"
+              sx={{
+                minWidth: "130px",
+                transition: "all 0.3s ease",
+                opacity: 0.5,
+                pointerEvents: "none",
+              }}
+            >
+              Enrolled
             </Button>
           )}
         </Box>
@@ -162,16 +188,18 @@ export default function CourseDetail() {
               variant="outlined"
               key={index}
               sx={{
+                color: "white",
                 marginLeft: 10,
                 marginRight: 10,
                 boxSizing: "border-box",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                outlineColor: "#c5c3c9",
+                border: "1px solid #ffffff1a",
+                backgroundColor: "#ffffff1a",
                 "&:hover": {
-                  boxShadow: 6, // MUI shadow level
-                  borderColor: "#c5c3c9",
+                  boxShadow: 6,
+                  borderColor: "white",
                 },
               }}
             >

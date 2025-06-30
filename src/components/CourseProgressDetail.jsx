@@ -135,7 +135,7 @@ export default function CourseProgressDetail() {
       if (newProgress == 1) {
         const { data, error } = await supabase
           .from("course_progress")
-          .update({ completed: true, progress: newProgress*100 })
+          .update({ completed: true, progress: newProgress * 100 })
           .eq("user_id", user)
           .eq("course_id", course_id)
           .select();
@@ -151,7 +151,7 @@ export default function CourseProgressDetail() {
       } else {
         const { data, error } = await supabase
           .from("course_progress")
-          .update({ progress: newProgress*100 })
+          .update({ progress: newProgress * 100 })
           .eq("user_id", user)
           .eq("course_id", course_id);
 
@@ -263,7 +263,6 @@ export default function CourseProgressDetail() {
               key={mod.mod_id}
               sx={{
                 color: "white",
-
                 marginLeft: 10,
                 marginRight: 10,
                 boxSizing: "border-box",
@@ -271,7 +270,7 @@ export default function CourseProgressDetail() {
                 flexDirection: "column",
                 justifyContent: "space-between",
                 border: "1px solid #ffffff1a",
-                backgroundColor: "#ffffff05",
+                backgroundColor: "#ffffff1a",
                 "&:hover": {
                   boxShadow: 6,
                   borderColor: "white",
@@ -338,11 +337,12 @@ export default function CourseProgressDetail() {
                       <Button
                         onClick={() => handleCheck(mod.mod_id)}
                         variant="contained"
-                        color="secondary"
                         size="small"
                         sx={{
+                          backgroundColor: "#5a23b1",
+                          transition: "all 0.3s ease",
                           "&:hover": {
-                            backgroundColor: "#9e9e9e",
+                            opacity: 0.5,
                           },
                         }}
                       >

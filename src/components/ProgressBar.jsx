@@ -34,7 +34,7 @@ import Box from "@mui/material/Box";
 
 function LinearProgressWithLabel(props) {
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
       <Box sx={{ flexGrow: 1 }}>
         <LinearProgress
           variant="determinate"
@@ -42,24 +42,31 @@ function LinearProgressWithLabel(props) {
           sx={{
             height: 10,
             borderRadius: 5,
-            backgroundColor: "#333",
+            backgroundColor: "#222", // deeper contrast for dark mode
+            transition: "all 0.4s ease",
             "& .MuiLinearProgress-bar": {
-              backgroundColor: "#7bae37",
+              backgroundColor: "#8bc34a", // brightened green
               borderRadius: 5,
+              transition: "all 0.4s ease",
             },
           }}
         />
       </Box>
-      <Typography variant="body2" sx={{ color: "#e0e0e0", minWidth: 40 }}>
+      <Typography
+        variant="body2"
+        sx={{ color: "#ccc", fontWeight: 500, minWidth: 45, textAlign: "right" }}
+      >
         {`${Math.round(props.value)}%`}
       </Typography>
     </Box>
   );
 }
+
 export default function LinearWithValueLabel({ progress }) {
   return (
-    <Box sx={{ width: "100%", pl: 0, pr: 1, pb: 1, pt: 1}}>
+    <Box sx={{ width: "100%", px: 0, py: 1 }}>
       <LinearProgressWithLabel value={progress} />
     </Box>
   );
 }
+
