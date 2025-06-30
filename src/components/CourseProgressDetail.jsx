@@ -92,14 +92,75 @@ export default function CourseProgressDetail() {
         .from("mod_progress")
         .update({ completed: true, progress: 100 })
         .eq("mod_id", mod_id)
-        .eq("user_id", user);
+        .eq("user_id", user)
+        .select();
 
       if (data) {
-        console.log(data);
+        console.log("Sucessfully updated module progress.");
+        await checkProgress();
       }
 
       if (error) {
         console.error(error);
+      }
+    };
+
+    const checkProgress = async () => {
+      const { data, error } = await supabase
+        .from("course_progress")
+        .select(
+          `
+      *,
+      mod_progress!inner(user_id, completed)
+    `
+        )
+        .eq("course_id", course_id)
+        .eq("mod_progress.user_id", user)
+        .eq("mod_progress.completed", true);
+
+      if (data) {
+        console.log("Course data: ", data);
+        const newProgress = data[0].mod_progress.length / modules.length;
+        console.log(data[0].mod_progress.length, modules.length, newProgress);
+        console.log(`Successfully checked course progress: ${newProgress}`);
+
+        await updateProgress(newProgress);
+      }
+      if (error) {
+        console.error(error);
+      }
+    };
+
+    const updateProgress = async (newProgress) => {
+      if (newProgress == 1) {
+        const { data, error } = await supabase
+          .from("course_progress")
+          .update({ completed: true, progress: newProgress*100 })
+          .eq("user_id", user)
+          .eq("course_id", course_id)
+          .select();
+
+        if (data) {
+          console.log(
+            "Successfully updated course progress. Course completed."
+          );
+        }
+        if (error) {
+          console.error(error);
+        }
+      } else {
+        const { data, error } = await supabase
+          .from("course_progress")
+          .update({ progress: newProgress*100 })
+          .eq("user_id", user)
+          .eq("course_id", course_id);
+
+        if (data) {
+          console.log("Successfully updated course progress");
+        }
+        if (error) {
+          console.error(error);
+        }
       }
     };
 
@@ -227,6 +288,7 @@ export default function CourseProgressDetail() {
                   padding: "16px",
                   backgroundColor: "#ffffff05",
                   color: "white",
+                  borderRadius: "10px",
                 }}
               >
                 {mod.title}
