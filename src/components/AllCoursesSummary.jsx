@@ -90,11 +90,10 @@ export default function AllCoursesSummary() {
                   justifyContent: "space-between",
                   border: "1px solid #ffffff1a",
                   cursor: "pointer",
+                  transition: "all 0.3s ease",
                   "&:hover": {
-                    boxShadow: 6,
-                    transform: "translateY(-2px) scale(1.02)",
-                    backgroundColor: "#cae5ff",
-                    color: "black",
+                    boxShadow: "0px 4px 20px rgba(255, 255, 255, 0.15)",
+                    transform: "scale(1.02)",
                   },
                 }}
               >
@@ -104,9 +103,6 @@ export default function AllCoursesSummary() {
                   sx={{
                     fontSize: "1rem",
                     fontWeight: "700",
-                    "&:hover": {
-                      color: "black",
-                    },
                   }}
                 ></CardHeader>
                 <CardContent>

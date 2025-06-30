@@ -87,12 +87,17 @@ export default function InProgressCourses() {
                 flexDirection: "column",
                 justifyContent: "space-between",
                 border: "1px solid #ffffff1a",
+                position: "relative",
+                transition: "all 0.3s ease",
                 "&:hover": {
-                  boxShadow: 6,
-                  transform: "translateY(-2px) scale(1.02)",
-                  backgroundColor: "#cae5ff",
-                  color: "black",
+                  boxShadow: "0px 4px 20px rgba(255, 255, 255, 0.15)",
+                  transform: "scale(1.02)",
                 },
+
+                // "&:before": {
+                //   background:
+                //     "radial-gradient(800px circle at 200px 100px #43ff640f transparent 40%)",
+                // },
               }}
             >
               <CardHeader
@@ -101,9 +106,9 @@ export default function InProgressCourses() {
                 sx={{
                   fontSize: "1rem",
                   fontWeight: "700",
-                  "&:hover": {
-                    color: "black",
-                  },
+                  // "&:hover": {
+                  //   color: "black",
+                  // },
                 }}
               ></CardHeader>
               <CardContent>
