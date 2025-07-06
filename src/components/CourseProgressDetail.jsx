@@ -7,6 +7,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ProgressBar from "./ProgressBar";
 
 export default function CourseProgressDetail() {
   const { course_id } = useParams();
@@ -37,9 +38,14 @@ export default function CourseProgressDetail() {
 
     const getCourse = async () => {
       const { data, error } = await supabase
-        .from("courses")
-        .select("*")
-        .eq("course_id", course_id);
+        .from("course_progress")
+        .select(
+          `*,
+      courses (*)  -- join all columns from courses table
+    `
+        )
+        .eq("course_id", course_id)
+        .eq("user_id", user);
 
       if (error) {
         console.error(error);
@@ -184,7 +190,7 @@ export default function CourseProgressDetail() {
     }
   };
 
-  const moveModule = async (cur_mod, cur_index, target_index) => {
+  const moveModule = async (cur_mod, target_index) => {
     const target_mod = modules[target_index];
 
     const cur_seq = cur_mod.mod_progress[0].sequence;
@@ -247,12 +253,39 @@ export default function CourseProgressDetail() {
   return (
     <div>
       <NavigationBar />
-      <Box sx={{ margin: "20px" }}>
-        <h1>{course.title}</h1>
-        <p>{course.description}</p>
-        <h2>Modules</h2>
-      </Box>
-      <Box>
+      <div>
+        {course?.courses && (
+          <Box sx={{ marginLeft: "60px", marginRight: "60px" }}>
+            <h1>{course.courses.title}</h1>
+            <p>{course.courses.description}</p>
+          </Box>
+        )}
+
+        <Box
+          sx={{
+            marginLeft: "60px",
+            marginRight: "80px", 
+            marginTop: "-10px",
+            maxWidth: "calc(100% - 40px)",
+          }}
+        >
+          <ProgressBar progress={course.progress} />
+        </Box>
+        <Box sx={{ marginLeft: "60px", marginRight: "60px" }}>
+          <h2>Modules</h2>
+        </Box>
+      </div>
+
+      <Box
+        // sx={{
+        //   display: "flex",
+        //   flexWrap: "wrap", // ✅ allow wrapping
+        //   justifyContent: "flex-start", // ✅ align to left
+        //   gap: 2, // ✅ space between cards
+        //   px: 2, // optional horizontal padding
+        //   maxWidth: "100%", // ✅ keep inside parent
+        // }}
+      >
         {modules.map((mod, index) => {
           const firstNullProgressIndex = modules.findIndex(
             (m) => m.mod_progress?.[0]?.progress === null
@@ -271,6 +304,7 @@ export default function CourseProgressDetail() {
                 justifyContent: "space-between",
                 border: "1px solid #ffffff1a",
                 backgroundColor: "#ffffff1a",
+                // maxWidth: "600",
                 "&:hover": {
                   boxShadow: 6,
                   borderColor: "white",
@@ -283,7 +317,7 @@ export default function CourseProgressDetail() {
                   fontSize: "medium",
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "center",
+                  alignItems: "left",
                   padding: "16px",
                   backgroundColor: "#ffffff05",
                   color: "white",

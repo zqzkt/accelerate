@@ -119,9 +119,6 @@ export default function InProgressCourses() {
                 />
 
                 <CardContent>
-                  {/* <Box sx={{ flexGrow: 1 }} /> */}
-
-                  {/* ✅ Progress bar */}
                   <Box sx={{ mb: 1 }}>
                     <ProgressBar progress={course.progress} />
                   </Box>
