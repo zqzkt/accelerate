@@ -135,16 +135,15 @@ export default function CourseDetail() {
   return (
     <div>
       <NavigationBar />
-      <Box sx={{ margin: "20px" }}>
+      <div style={{ marginLeft: "60px", marginRight: "60px" }}>
         <Box
           sx={{
             display: "flex",
+            alignItems: "center",
             justifyContent: "space-between",
           }}
         >
-          <h1 style={{ margin: 0 }}>
-            <span>{course.title}</span>
-          </h1>
+          <h1>{course.title}</h1>
           {showButton ? (
             <Button
               onClick={() => handleEnrol()}
@@ -171,6 +170,7 @@ export default function CourseDetail() {
                 transition: "all 0.3s ease",
                 opacity: 0.5,
                 pointerEvents: "none",
+                marginLeft: "80px",
               }}
             >
               Enrolled
@@ -180,7 +180,7 @@ export default function CourseDetail() {
 
         <p>{course.description}</p>
         <h2>Modules</h2>
-      </Box>
+      </div>
       <Box>
         {modules.map((mod, index) => {
           return (

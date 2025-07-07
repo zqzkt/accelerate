@@ -44,7 +44,7 @@ export default function InProgressCourses() {
       }
       if (data) {
         setCourses(data);
-        console.log(data);
+        // console.log(data);
       }
     };
 

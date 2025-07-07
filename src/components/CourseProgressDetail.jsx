@@ -264,7 +264,7 @@ export default function CourseProgressDetail() {
         <Box
           sx={{
             marginLeft: "60px",
-            marginRight: "80px", 
+            marginRight: "60px",
             marginTop: "-10px",
             maxWidth: "calc(100% - 40px)",
           }}
@@ -276,16 +276,7 @@ export default function CourseProgressDetail() {
         </Box>
       </div>
 
-      <Box
-        // sx={{
-        //   display: "flex",
-        //   flexWrap: "wrap", // ✅ allow wrapping
-        //   justifyContent: "flex-start", // ✅ align to left
-        //   gap: 2, // ✅ space between cards
-        //   px: 2, // optional horizontal padding
-        //   maxWidth: "100%", // ✅ keep inside parent
-        // }}
-      >
+      <Box>
         {modules.map((mod, index) => {
           const firstNullProgressIndex = modules.findIndex(
             (m) => m.mod_progress?.[0]?.progress === null
@@ -304,7 +295,6 @@ export default function CourseProgressDetail() {
                 justifyContent: "space-between",
                 border: "1px solid #ffffff1a",
                 backgroundColor: "#ffffff1a",
-                // maxWidth: "600",
                 "&:hover": {
                   boxShadow: 6,
                   borderColor: "white",
