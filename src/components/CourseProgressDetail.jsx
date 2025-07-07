@@ -146,10 +146,18 @@ export default function CourseProgressDetail() {
           .eq("course_id", course_id)
           .select();
 
+        console.log("data:", data);
+        console.log("error:", error);
+
         if (data) {
           console.log(
             "Successfully updated course progress. Course completed."
           );
+          setCourse((prev) => ({
+            ...prev,
+            progress: newProgress * 100,
+            completed: true,
+          }));
         }
         if (error) {
           console.error(error);
@@ -159,10 +167,15 @@ export default function CourseProgressDetail() {
           .from("course_progress")
           .update({ progress: newProgress * 100 })
           .eq("user_id", user)
-          .eq("course_id", course_id);
+          .eq("course_id", course_id)
+          .select("*");
 
         if (data) {
           console.log("Successfully updated course progress");
+          setCourse((prev) => ({
+            ...prev,
+            progress: newProgress * 100,
+          }));
         }
         if (error) {
           console.error(error);

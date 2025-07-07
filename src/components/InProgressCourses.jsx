@@ -48,7 +48,8 @@ export default function InProgressCourses() {
       }
     };
 
-    getUserCourses();
+    getUserCourses()
+
   }, [user]);
 
   return (
@@ -97,7 +98,6 @@ export default function InProgressCourses() {
                 },
               }}
             >
-
               <Box
                 sx={{
                   filter: course.completed ? "grayscale(1)" : "none",
@@ -172,7 +172,7 @@ export default function InProgressCourses() {
                               boxShadow:
                                 "0px 0px 8px 2px rgba(255,255,255,0.5)",
                               backgroundColor: "#a5d86e",
-                              color: "black"
+                              color: "black",
                             },
                           }}
                         >
