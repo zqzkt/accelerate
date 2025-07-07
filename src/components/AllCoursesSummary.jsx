@@ -23,7 +23,6 @@ export default function AllCoursesSummary() {
       }
       if (data) {
         setUser(data.user.id);
-        // console.log(user)
       }
     };
 
@@ -34,21 +33,39 @@ export default function AllCoursesSummary() {
     if (!user) return;
 
     const getAllCourses = async () => {
-      const { data, error } = await supabase
+      const { data: allCourses, error } = await supabase
         .from("courses")
-        .select("*")
-        .range(0, 5);
+        .select("*");
 
       if (error) {
         console.log(error);
       }
-      if (data) {
-        setCourses(data);
-        console.log(data);
+
+      const { data: enrolledCourses, error: enrolledCoursesError } =
+        await supabase
+          .from("course_progress")
+          .select("course_id")
+          .eq("user_id", user);
+
+      if (enrolledCoursesError) {
+        console.error("Error fetching enrolled courses:", enrolledCoursesError);
+        return;
       }
+
+      const enrolledCourseIds = enrolledCourses.map((item) => item.course_id);
+      // console.log(enrolledCourseIds);
+
+      // Step 3: Filter courses that are NOT enrolled
+      const notEnrolledCourses = allCourses.filter(
+        (course) => !enrolledCourseIds.includes(course.course_id)
+      );
+      // console.log(notEnrolledCourses);
+
+      setCourses(notEnrolledCourses);
     };
 
     getAllCourses();
+    // console.log(courses);
   }, [user]);
 
   return (
@@ -72,10 +89,13 @@ export default function AllCoursesSummary() {
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         {courses.map((course, index) => {
           return (
-            <Link to={`/courses/${course.course_id}`} target="_blank">
+            <Link
+              to={`/courses/${course.course_id}`}
+              target="_blank"
+              key={course.course_id}
+            >
               <Card
                 variant="outlined"
-                key={index}
                 sx={{
                   backgroundColor: "#ffffff1a",
                   color: "white",
