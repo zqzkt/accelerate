@@ -43,14 +43,44 @@ export default function Login() {
         alignItems: "center",
         height: "100vh",
         width: "100vw",
+        bgcolor: "black",
+        px: 2,
       }}
     >
-      <div>
-        <h2>Login</h2>
-        {message && <span>{message}</span>}
+      <div
+        style={{
+          backgroundColor: "#000",
+          padding: "32px 40px",
+          borderRadius: "12px",
+          minWidth: "320px",
+          maxWidth: "400px",
+          color: "white",
+          textAlign: "center",
+          border: "1px solid #ffffff1a",
+          backgroundColor: "#ffffff1a",
+        }}
+      >
+        <h2 style={{ marginBottom: "24px", fontWeight: "600" }}>Login</h2>
+        {message && (
+          <span
+            style={{
+              display: "block",
+              marginBottom: "16px",
+              color: "white",
+              fontWeight: "500",
+            }}
+          >
+            {message}
+          </span>
+        )}
         <Box
           component="form"
-          sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            width: "100%",
+          }}
           onSubmit={(e) => {
             handleSubmit(e);
             setloadingButton(false);
@@ -58,32 +88,86 @@ export default function Login() {
         >
           <TextField
             onChange={(e) => setEmail(e.target.value)}
-            type="text"
+            type="email"
             placeholder="Email"
             value={email}
             required
+            variant="filled"
+            InputProps={{
+              sx: {
+                bgcolor: "#ffffff1a",
+                color: "white",
+                borderRadius: 1,
+                "&:hover": {
+                  borderColor: "white",
+                  bgcolor: "#ffffff33",
+                },
+                "& input::placeholder": {
+                  color: "#ffffff99",
+                },
+              },
+            }}
           />
 
           <TextField
             onChange={(e) => setPassword(e.target.value)}
-            type="text"
+            type="password"
             placeholder="Password"
             value={password}
             required
+            variant="filled"
+            InputProps={{
+              sx: {
+                bgcolor: "#ffffff1a",
+                color: "white",
+                borderRadius: 1,
+                "&:hover": {
+                  borderColor: "white",
+                  bgcolor: "#ffffff33",
+                },
+                "& input::placeholder": {
+                  color: "#ffffff99",
+                },
+              },
+            }}
           />
-          <br></br>
           <Button
             type="submit"
             variant="contained"
-            sx={{ backgroundColor: "black" }}
             size="large"
             loading={loadingButton}
+            sx={{
+              mt: 1,
+              border: "1px solid #ffffff1a",
+              fontWeight: "600",
+              textTransform: "none",
+              bgcolor: "white",
+              color: "black",
+              borderColor: "white",
+              "&:hover": {
+                bgcolor: "#ffffff1a",
+                color: "white",
+                borderColor: "white",
+              },
+            }}
           >
             Login
           </Button>
         </Box>
-        <span>Don't have an account?</span>
-        <Link to="/register">Register</Link>
+
+        <div style={{ marginTop: "20px", fontSize: "0.9rem", color: "white" }}>
+          <span>Don't have an account? </span>
+          <Link
+            to="/register"
+            style={{
+              color: "white",
+              fontWeight: "600",
+              textDecoration: "underline",
+            }}
+          >
+            Register
+          </Link>
+        </div>
       </div>
     </Box>
   );

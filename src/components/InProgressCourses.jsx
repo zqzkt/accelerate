@@ -6,7 +6,6 @@ import { Box, Button } from "@mui/material";
 import ProgressBar from "./ProgressBar";
 import supabase from "../../helper/supabaseClient";
 import { Link } from "react-router-dom";
-import { AlignVerticalBottom } from "@mui/icons-material";
 
 export default function InProgressCourses() {
   const [error, setError] = useState("");
@@ -56,18 +55,7 @@ export default function InProgressCourses() {
     <div style={{ margin: "20px" }}>
       <p>{error}</p>
       <h2>
-        <Link
-          to="/in_progress_courses"
-          style={{
-            textDecoration: "none",
-            "&:hover": { textDecoration: "none" },
-            "&:active": { textDecoration: "none" },
-            "&:visited": { textDecoration: "none" },
-            "&:focus": { textDecoration: "none" },
-          }}
-        >
           My Courses
-        </Link>
       </h2>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         {courses.map((course, index) => {
