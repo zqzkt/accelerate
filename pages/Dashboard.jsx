@@ -5,8 +5,10 @@ import { Box } from "@mui/material";
 import InProgressCourses from "../src/components/InProgressCourses";
 import AllCoursesSummary from "../src/components/AllCoursesSummary";
 import NavigationBar from "../src/components/NavigationBar";
+import RecommendedCourses from "../src/components/RecommendedCourses";
 
 export default function Dashboard() {
+
   return (
     <div>
       <NavigationBar position="sticky" />
@@ -15,6 +17,7 @@ export default function Dashboard() {
         {/* <h1>Welcome to Accelerate!</h1> */}
         <Box>
           <InProgressCourses />
+          <RecommendedCourses />
           <AllCoursesSummary />
         </Box>
       </div>

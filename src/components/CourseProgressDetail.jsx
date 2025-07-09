@@ -203,11 +203,13 @@ export default function CourseProgressDetail() {
     }
   };
 
-  const moveModule = async (cur_mod, target_index) => {
+  const moveModule = async (cur_mod, cur_index, target_index) => {
     const target_mod = modules[target_index];
 
     const cur_seq = cur_mod.mod_progress[0].sequence;
     const target_seq = target_mod.mod_progress[0].sequence;
+
+
 
     if (!target_mod) return;
 

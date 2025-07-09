@@ -55,7 +55,6 @@ export default function AllCoursesSummary() {
       const enrolledCourseIds = enrolledCourses.map((item) => item.course_id);
       // console.log(enrolledCourseIds);
 
-      // Step 3: Filter courses that are NOT enrolled
       const notEnrolledCourses = allCourses.filter(
         (course) => !enrolledCourseIds.includes(course.course_id)
       );
@@ -71,21 +70,7 @@ export default function AllCoursesSummary() {
   return (
     <div style={{ margin: "20px" }}>
       {error}
-      <h2>
-        <Link
-          to="/courses"
-          style={{
-            color: "white",
-            textDecoration: "none",
-            "&:hover": { textDecoration: "none" },
-            "&:active": { textDecoration: "none" },
-            "&:visited": { textDecoration: "none" },
-            "&:focus": { textDecoration: "none" },
-          }}
-        >
-          Explore
-        </Link>
-      </h2>
+      <h2>Explore</h2>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         {courses.map((course, index) => {
           return (
