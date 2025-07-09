@@ -39,47 +39,73 @@ export default function Register() {
   return (
     <Box
       sx={{
+        position: "fixed",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        width: "100vw",
+        width: "100%",
         bgcolor: "black",
         px: 2,
+        color: "white",
       }}
     >
-      <div
-        style={{
+      <Box
+        sx={{
+          textAlign: "center",
+          mb: 4,
+        }}
+      >
+        <h1 style={{ margin: 0 }}>Welcome to</h1>
+        <h1
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "8px",
+            margin: 0,
+          }}
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/10003/10003660.png"
+            alt="Logo"
+            style={{ maxWidth: "56px", height: "auto" }}
+          />
+          ccelerate
+        </h1>
+      </Box>
+      <Box
+        sx={{
           backgroundColor: "#ffffff1a",
           padding: "32px 40px",
           borderRadius: "12px",
           minWidth: "320px",
           maxWidth: "400px",
-          color: "white",
-          textAlign: "center",
           border: "1px solid #ffffff1a",
+          textAlign: "center",
         }}
       >
         <h2 style={{ marginBottom: "24px", fontWeight: "600" }}>Register</h2>
+
         {message && (
           <span
             style={{
               display: "block",
               marginBottom: "16px",
-              color: "white",
               fontWeight: "500",
             }}
           >
             {message}
           </span>
         )}
+
         <Box
           component="form"
           sx={{
             display: "flex",
             flexDirection: "column",
             gap: 2,
-            width: "100%",
           }}
           onSubmit={(e) => {
             handleSubmit(e);
@@ -97,6 +123,7 @@ export default function Register() {
               sx: {
                 bgcolor: "#ffffff1a",
                 color: "white",
+                border: "1px solid #ffffff1a",
                 borderRadius: 1,
                 "&:hover": {
                   borderColor: "white",
@@ -120,6 +147,7 @@ export default function Register() {
               sx: {
                 bgcolor: "#ffffff1a",
                 color: "white",
+                border: "1px solid #ffffff1a",
                 borderRadius: 1,
                 "&:hover": {
                   borderColor: "white",
@@ -143,7 +171,6 @@ export default function Register() {
               textTransform: "none",
               bgcolor: "white",
               color: "black",
-              borderColor: "white",
               "&:hover": {
                 bgcolor: "#ffffff1a",
                 color: "white",
@@ -155,7 +182,7 @@ export default function Register() {
           </Button>
         </Box>
 
-        <div style={{ marginTop: "20px", fontSize: "0.9rem", color: "white" }}>
+        <div style={{ marginTop: "20px", fontSize: "0.9rem"}}>
           <span>Already have an account? </span>
           <Link
             to="/login"
@@ -168,7 +195,7 @@ export default function Register() {
             Log in
           </Link>
         </div>
-      </div>
+      </Box>
     </Box>
   );
 }
