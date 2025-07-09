@@ -27,7 +27,7 @@ export default function Courses() {
   return (
     <div style={{ backgroundColor: "#000", minHeight: "100vh" }}>
       <NavigationBar position="sticky" />
-      <div style={{ maxWidth: "1200px", marginLeft: "60px" }}>
+      <div style={{ maxWidth: "1200px"}}>
         <AllCoursesSummary />
       </div>
     </div>
