@@ -14,8 +14,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />}>
-          /* home */
+        <Route path="/" element={<Register />}>
+          /* register */
         </Route>
         <Route path="/login" element={<Login />}>
           /* login */
@@ -34,8 +34,8 @@ export default function App() {
           /* dashboard */
         </Route>
         <Route path="/courses" element={<Courses />}></Route>
-        <Route path="/in_progress_courses" element={<MyProgress/>}></Route>
-        <Route path="/learn/:course_id" element={<Learn/>}></Route>
+        <Route path="/in_progress_courses" element={<MyProgress />}></Route>
+        <Route path="/learn/:course_id" element={<Learn />}></Route>
         <Route path="/courses/:course_id" element={<CourseDetail />} />
       </Routes>
     </BrowserRouter>

@@ -13,7 +13,7 @@ export default function Courses() {
       const { data, error } = await supabase.from("courses").select("*");
 
       if (error) {
-        // console.log(error);
+        console.log(error);
       }
       if (data) {
         setCourses(data);
@@ -25,10 +25,11 @@ export default function Courses() {
   }, []);
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#000", minHeight: "100vh" }}>
       <NavigationBar position="sticky" />
-
-      <AllCoursesSummary/>
+      <div style={{ maxWidth: "1200px", marginLeft: "60px" }}>
+        <AllCoursesSummary />
+      </div>
     </div>
   );
 }
