@@ -17,80 +17,104 @@ export default function Navbar() {
   ];
 
   return (
-    <Box sx={{ flexGrow: 1, backgroundColor: "black" }}>
-      <AppBar
-        position="sticky"
+    <div>
+      <Box
         sx={{
-          boxShadow: "none",
-          borderBottom: "solid 1px gray",
-          backgroundColor: "#ffffff1a",
+          flexGrow: 1,
+          backgroundColor: "black",
+          width: "100vw",
         }}
       >
-        <Toolbar sx={{ gap: 2 }}>
-          <Button
-            disableRipple
-            sx={{
-              borderBottom: "2px solid transparent",
-              borderRadius: 0,
-              transition: "border-bottom 0.3s ease",
-              paddingBottom: "2px",
-              "&:hover": {
-                borderBottom: "2px solid white",
-              },
-            }}
-          >
-            <Typography variant="h5" component="div">
-              <Link
-                to="/dashboard"
-                style={{
-                  color: "white",
-                  textDecoration: "none",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "4px",
-                }}
-              >
-                <img
-                  alt="logo"
-                  src="https://cdn-icons-png.flaticon.com/512/10003/10003660.png"
-                  style={{ maxWidth: "32px", height: "auto" }}
-                ></img>
-                ccelerate
-              </Link>
-            </Typography>
-          </Button>
-
-          {navItems.map((item) => {
-            const isActive = currentPath === item.path;
-            return (
+        <AppBar
+          sx={{
+            position: "fixed",
+            top: 0,
+            width: "100%",
+            borderBottom: "solid 1px #ffffff1a",
+            backgroundColor: "#1a1a1a",
+          }}
+        >
+          <Toolbar sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexGrow: 1,
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
               <Button
-                key={item.path}
                 disableRipple
                 sx={{
-                  borderBottom: isActive
-                    ? "3px solid white"
-                    : "3px solid transparent",
+                  borderBottom: "3px solid transparent",
                   borderRadius: 0,
-                  paddingBottom: "4px",
+                  marginTop: "9px",
+                  transition: "border-bottom 0.3s ease",
+                  "&:hover": {
+                    borderBottom: "3px solid white",
+                  },
                 }}
               >
-                <Link
-                  to={item.path}
-                  style={{
-                    color: "white",
-                    textDecoration: "none",
-                    fontWeight: isActive ? "600" : "normal",
-                  }}
-                >
-                  {item.label}
-                </Link>
+                <Typography variant="h5" component="div">
+                  <Link
+                    to="/dashboard"
+                    style={{
+                      color: "white",
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
+                    <img
+                      alt="logo"
+                      src="https://cdn-icons-png.flaticon.com/512/10003/10003660.png"
+                      style={{
+                        maxWidth: "32px",
+                        height: "auto",
+                        verticalAlign: "middle",
+                      }}
+                    ></img>
+                    ccelerate
+                  </Link>
+                </Typography>
               </Button>
-            );
-          })}
 
-          <ProfileDrawer />
-        </Toolbar>
-      </AppBar>
-    </Box>
+              {navItems.map((item) => {
+                const isActive = currentPath === item.path;
+                return (
+                  <Button
+                    key={item.path}
+                    disableRipple
+                    sx={{
+                      borderBottom: isActive
+                        ? "3px solid white"
+                        : "3px solid transparent",
+                      borderRadius: 0,
+                      paddingBottom: "4px",
+                    }}
+                  >
+                    <Link
+                      to={item.path}
+                      style={{
+                        color: "white",
+                        textDecoration: "none",
+                        fontWeight: isActive ? "600" : "normal",
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  </Button>
+                );
+              })}
+              <Box sx={{ ml: "auto" }}>
+                <ProfileDrawer />
+              </Box>
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
+      <Box sx={{ mt: "80px" }}>{/* Your page content goes here */}</Box>
+    </div>
   );
 }

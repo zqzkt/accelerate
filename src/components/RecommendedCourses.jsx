@@ -12,6 +12,7 @@ export default function RecommendedCourses() {
   const [user, setUser] = useState("");
   const [courses, setCourses] = useState([]);
   const [allCourses, setallCourses] = useState([]);
+  const [asked, setAsked] = useState(false);
 
   useEffect(() => {
     const getUserID = async () => {
@@ -68,6 +69,7 @@ export default function RecommendedCourses() {
 
   const handleRecommend = async () => {
     setLoading(true);
+    setAsked(true);
     const res = await fetch("/.netlify/functions/recommender", {
       method: "POST",
       body: JSON.stringify({
@@ -163,9 +165,12 @@ export default function RecommendedCourses() {
             </Link>
           ))}
         </div>
-      ) : (
+      ) : ""}
+      {!Array.isArray(recommendations) && !recommendations.length > 0 ? (
         <p style={{ marginTop: "24px" }}>No recommendations available.</p>
-      )}
+      ) : ""
+      }
+      
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -14,9 +15,8 @@ import {
   ManageAccounts,
   WorkspacePremium,
 } from "@mui/icons-material";
-import supabase from '../../helper/supabaseClient';
+import supabase from "../../helper/supabaseClient";
 import { useNavigate } from "react-router-dom";
-
 
 export default function ProfileDrawer() {
   const [open, setOpen] = React.useState(false);
@@ -32,15 +32,25 @@ export default function ProfileDrawer() {
     setOpen(newOpen);
   };
 
-  
-
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+    <Box
+      sx={{ width: 250, backgroundColor: "#1a1a1a", color: "white" }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+    >
       <List>
-        {["Profile", "Edit Goals", "Achivements"].map((text, index) => (
+        {["Profile", "Edit Goals", "Achievements"].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
+            <ListItemButton
+              sx={{
+                color: "white",
+                transition: "border-right 0.3s ease",
+                "&:hover": {
+                  borderRight: "4px solid white",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ color: "white" }}>
                 {index == 0 ? (
                   <ManageAccounts />
                 ) : index % 2 === 0 ? (
@@ -49,21 +59,30 @@ export default function ProfileDrawer() {
                   <AddTask />
                 )}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text} sx={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-      <Divider />
+      <Divider sx={{ borderColor: "rgba(255,255,255,0.2)" }} />
       <List>
-          <ListItem disablePadding>
-            <ListItemButton onClick={signOut}>
-              <ListItemIcon>
-                <ExitToApp />
-              </ListItemIcon>
-              <ListItemText primary="Sign Out" />
-            </ListItemButton>
-          </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={signOut}
+            sx={{
+              color: "white",
+              "&:hover": {
+                borderRight: "4px solid white",
+              },
+                transition: "border-right 0.3s ease",
+            }}
+          >
+            <ListItemIcon sx={{ color: "white" }}>
+              <ExitToApp />
+            </ListItemIcon>
+            <ListItemText primary="Sign Out" sx={{ color: "white" }} />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -72,15 +91,39 @@ export default function ProfileDrawer() {
     <div>
       <Button
         onClick={toggleDrawer(true)}
-        style={{ position: "absolute", right: "30px", top: "0px" }}
+        disableRipple
+        sx={{
+          borderRight: "3px solid transparent",
+          borderRadius: 0,
+          transition: "border-right 0.3s ease",
+          paddingBottom: "2px",
+          "&:hover": {
+            borderRight: "3px solid white",
+          },
+        }}
       >
-        <img
-          height="55px"
-          src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2220431045.jpg"
-        />
-        Profile
+        <Link
+          style={{
+            color: "white",
+            textDecoration: "none",
+          }}
+        >
+          profile
+        </Link>
       </Button>
-      <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={toggleDrawer(false)}
+        slotProps={{
+          paper: {
+            sx: {
+              backgroundColor: "#1a1a1a",
+              color: "white",
+            },
+          },
+        }}
+      >
         {DrawerList}
       </Drawer>
     </div>
