@@ -14,7 +14,6 @@ export default function Dashboard() {
       <NavigationBar position="sticky" />
 
       <div>
-        {/* <h1>Welcome to Accelerate!</h1> */}
         <Box>
           <InProgressCourses />
           <RecommendedCourses />
