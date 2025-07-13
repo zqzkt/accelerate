@@ -3,10 +3,12 @@ import NavigationBar from "./NavigationBar";
 import supabase from "../../helper/supabaseClient";
 import { react, useState, useEffect } from "react";
 import { Box, Card, Button } from "@mui/material";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import Modal from "@mui/material/Modal";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 import ProgressBar from "./ProgressBar";
 
 export default function CourseProgressDetail() {
@@ -16,6 +18,10 @@ export default function CourseProgressDetail() {
   const [checkButtons, setCheckButtons] = useState({});
   const [user, setUser] = useState("");
   const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+  const [openModalIndex, setopenModalIndex] = useState(null);
+  const handleOpen = (index) => setopenModalIndex(index);
+  const handleClose = () => setopenModalIndex(null);
 
   useEffect(() => {
     const getUserID = async () => {
@@ -87,7 +93,7 @@ export default function CourseProgressDetail() {
     getModules();
   }, [course_id, user]);
 
-  const handleCheck = (mod_id) => {
+  const handleCheck = async (mod_id) => {
     setCheckButtons((prev) => ({
       ...prev,
       [mod_id]: true,
@@ -183,10 +189,13 @@ export default function CourseProgressDetail() {
       }
     };
 
-    updateModules(mod_id);
+    await updateModules(mod_id);
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    window.location.reload(false);
   };
 
-  const updateProgress = async (mod_id) => {
+  const startModule = async (mod_id) => {
+    handleOpen();
     const { data, error } = await supabase
       .from("mod_progress")
       .update({ progress: 0 })
@@ -208,8 +217,6 @@ export default function CourseProgressDetail() {
 
     const cur_seq = cur_mod.mod_progress[0].sequence;
     const target_seq = target_mod.mod_progress[0].sequence;
-
-
 
     if (!target_mod) return;
 
@@ -284,7 +291,7 @@ export default function CourseProgressDetail() {
             maxWidth: "calc(100% - 40px)",
           }}
         >
-          <ProgressBar progress={course.progress} />
+          <ProgressBar progress={course?.progress} />
         </Box>
         <Box sx={{ marginLeft: "60px", marginRight: "60px" }}>
           <h2>Modules</h2>
@@ -293,8 +300,8 @@ export default function CourseProgressDetail() {
 
       <Box>
         {modules.map((mod, index) => {
-          const firstNullProgressIndex = modules.findIndex(
-            (m) => m.mod_progress?.[0]?.progress === null
+          const firstNotCompletedIndex = modules.findIndex(
+            (m) => !m.mod_progress?.[0]?.completed
           );
           return (
             <Card
@@ -357,21 +364,134 @@ export default function CourseProgressDetail() {
                           <ArrowDownwardIcon />
                         </Button>
                       )}
-                      {index === firstNullProgressIndex && (
-                        <Button
-                          onClick={() => updateProgress(mod.mod_id)}
-                          variant="contained"
-                          color="success"
-                          size="small"
+                      {index === firstNotCompletedIndex && (
+                        <>
+                          {mod.mod_progress[0].progress === null &&
+                            !mod.mod_progress[0].completed && (
+                              <Button
+                                onClick={() => {
+                                  startModule(mod.mod_id);
+                                  handleOpen(index);
+                                }}
+                                variant="contained"
+                                color="success"
+                                size="small"
+                                sx={{
+                                  "&:hover": { backgroundColor: "#9e9e9e" },
+                                }}
+                              >
+                                Start
+                              </Button>
+                            )}
+                          {mod.mod_progress[0].progress !== null &&
+                            mod.mod_progress[0].progress < 100 &&
+                            !mod.mod_progress[0].completed && (
+                              <Button
+                                onClick={() => handleOpen(index)}
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                sx={{
+                                  "&:hover": { backgroundColor: "#1976d2" },
+                                }}
+                              >
+                                Resume
+                              </Button>
+                            )}
+                        </>
+                      )}
+
+                      <Modal
+                        open={openModalIndex === index}
+                        onClose={handleClose}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          px: 3,
+                        }}
+                      >
+                        <Box
                           sx={{
-                            "&:hover": {
-                              backgroundColor: "#9e9e9e",
-                            },
+                            width: "80vw",
+                            maxWidth: "900px",
+                            bgcolor: "#1a1a1a",
+                            border: "1px solid #ffffff1a",
+                            borderRadius: "8px",
+                            boxSizing: "border-box",
+                            p: 4,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            maxHeight: "90vh",
+                            overflowY: "auto",
+                            position: "relative",
                           }}
                         >
-                          start
-                        </Button>
-                      )}
+                          <IconButton
+                            onClick={handleClose}
+                            sx={{
+                              position: "absolute",
+                              top: 16,
+                              right: 16,
+                              color: "white",
+                              zIndex: 1,
+                            }}
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                          <Box
+                            sx={{
+                              width: "100%",
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
+                          >
+                            <h2
+                              style={{
+                                color: "white",
+                                mb: "16px",
+                                alignSelf: "flex-start",
+                              }}
+                            >
+                              {mod.title}
+                            </h2>
+                            <img
+                              src="../../resources/video_player_screenshot.png"
+                              alt="Video preview"
+                              style={{
+                                width: "100%",
+                                maxHeight: "65vh",
+                                borderRadius: "10px",
+                                objectFit: "contain",
+                              }}
+                            />
+                          </Box>
+
+                          <Box
+                            sx={{
+                              width: "100%",
+                              mt: 2,
+                              display: "flex",
+                              justifyContent: "flex-end",
+                            }}
+                          >
+                            <Button
+                              onClick={() => handleCheck(mod.mod_id)}
+                              color="success"
+                              variant="contained"
+                              sx={{
+                                px: 3,
+                                py: 1.5,
+                                fontWeight: 600,
+                              }}
+                            >
+                              mark as completed
+                            </Button>
+                          </Box>
+                        </Box>
+                      </Modal>
 
                       <Button
                         onClick={() => handleCheck(mod.mod_id)}

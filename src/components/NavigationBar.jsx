@@ -114,7 +114,7 @@ export default function Navbar() {
           </Toolbar>
         </AppBar>
       </Box>
-      <Box sx={{ mt: "80px" }}>{/* Your page content goes here */}</Box>
+      <Box sx={{ mt: "97.8274px" }}/>
     </div>
   );
 }
