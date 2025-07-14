@@ -115,7 +115,7 @@ export default function RecommendedCourses() {
       )}
 
       {Array.isArray(recommendations) && recommendations.length > 0 ? (
-        <div style={{ display: "flex", marginTop: "24px"}}>
+        <div style={{ display: "flex", marginTop: "24px" }}>
           {recommendations.map((rec, index) => (
             <Link to={`/courses/${rec.course_id}`} target="_blank" key={index}>
               <Card
@@ -165,12 +165,14 @@ export default function RecommendedCourses() {
             </Link>
           ))}
         </div>
-      ) : ""}
+      ) : (
+        ""
+      )}
       {!Array.isArray(recommendations) && !recommendations.length > 0 ? (
         <p style={{ marginTop: "24px" }}>No recommendations available.</p>
-      ) : ""
-      }
-      
+      ) : (
+        ""
+      )}
     </div>
   );
 }

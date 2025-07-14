@@ -10,6 +10,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import ProgressBar from "./ProgressBar";
+import videoPlayerScreenshot from "src/assets/video_player_screenshot.png";
 
 export default function CourseProgressDetail() {
   const { course_id } = useParams();
@@ -465,7 +466,7 @@ export default function CourseProgressDetail() {
                               {mod.title}
                             </h2>
                             <img
-                              src="../../resources/video_player_screenshot.png"
+                              src="src/assets/video_player_screenshot.png"
                               alt="Video preview"
                               style={{
                                 width: "100%",
@@ -493,9 +494,9 @@ export default function CourseProgressDetail() {
                                 py: 1.5,
                                 fontWeight: 600,
                                 transition: "all 0.3s ease",
-                                "&:hover" : {
-                                  opacity: 0.7
-                                }
+                                "&:hover": {
+                                  opacity: 0.7,
+                                },
                               }}
                             >
                               mark as completed
