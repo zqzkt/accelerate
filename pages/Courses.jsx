@@ -4,6 +4,7 @@ import supabase from "../helper/supabaseClient";
 import NavigationBar from "../src/components/NavigationBar";
 import { Link } from "react-router-dom";
 import AllCoursesSummary from "../src/components/AllCoursesSummary";
+import RecommendedCourses from "../src/components/RecommendedCourses";
 
 export default function Courses() {
   const [courses, setCourses] = useState([]);
@@ -29,6 +30,7 @@ export default function Courses() {
       <NavigationBar position="sticky" />
       <div style={{ maxWidth: "1200px"}}>
         <AllCoursesSummary />
+        <RecommendedCourses />
       </div>
     </div>
   );

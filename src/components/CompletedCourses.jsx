@@ -7,11 +7,11 @@ import ProgressBar from "./ProgressBar";
 import supabase from "../../helper/supabaseClient";
 import { Link } from "react-router-dom";
 
-export default function InProgressCourses() {
+export default function CompletedCourses() {
   const [error, setError] = useState("");
   const [user, setUser] = useState("");
   const [courses, setCourses] = useState([]);
-  const [showMessage, setshowMessage] = useState(false);
+  const [message, setMessage] = useState("")
 
   useEffect(() => {
     const getUserID = async () => {
@@ -38,7 +38,7 @@ export default function InProgressCourses() {
         .from("course_progress")
         .select(`course_id, progress, completed, courses (title)`)
         .eq("user_id", user)
-        .eq("completed", false);
+        .eq("completed", true);
 
       if (error) {
         console.log(error);
@@ -46,9 +46,9 @@ export default function InProgressCourses() {
       if (data) {
         setCourses(data);
         // console.log(data);
-        if (data.length == 0) {
-          setshowMessage(true);
-        } else setshowMessage(false);
+        if (data.length == 0){
+            setMessage("No completed courses for now :( Keep going!")
+        }
       }
     };
 
@@ -58,26 +58,8 @@ export default function InProgressCourses() {
   return (
     <div style={{ margin: "20px" }}>
       <p>{error}</p>
-      <h2>My Courses</h2>
-      {showMessage && (
-        <p>
-          No courses in progress. <nbsp />
-          <Button
-            href="/courses"
-            component="a"
-            sx={{
-              fontWeight: "bold",
-              textDecoration: "none",
-              color: "#747bff",
-              "&:hover": {
-                color: "white",
-              },
-            }}
-          >
-            Start here!
-          </Button>
-        </p>
-      )}
+      <h2>Completed</h2>
+      <p>{message}</p>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         {courses.map((course, index) => {
           return (
@@ -107,6 +89,7 @@ export default function InProgressCourses() {
             >
               <Box
                 sx={{
+                  filter: "grayscale(1)",
                   opacity: course.completed ? 0.5 : 1,
                   flexGrow: 1,
                   display: "flex",
@@ -128,44 +111,25 @@ export default function InProgressCourses() {
                   <Box sx={{ mb: 1 }}>
                     <ProgressBar progress={course.progress} />
                   </Box>
-
-                  {Number(course.progress || 0) === 0 ? (
+                  <Box>
                     <Link to={`/learn/${course.course_id}`} target="_blank">
                       <Button
                         fullWidth
                         variant="contained"
-                        color="success"
                         size="small"
                         sx={{
                           transition: "all 0.3s ease",
                           "&:hover": {
-                            opacity: 0.7,
+                            boxShadow: "0px 0px 8px 2px rgba(255,255,255,0.5)",
+                            backgroundColor: "#a5d86e",
+                            color: "black",
                           },
                         }}
                       >
-                        start
+                        View
                       </Button>
                     </Link>
-                  ) : (
-                    <div>
-                      <Link to={`/learn/${course.course_id}`} target="_blank">
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          size="small"
-                          sx={{
-                            backgroundColor: "#5a23b1",
-                            transition: "all 0.3s ease",
-                            "&:hover": {
-                              opacity: 0.7,
-                            },
-                          }}
-                        >
-                          Resume
-                        </Button>
-                      </Link>
-                    </div>
-                  )}
+                  </Box>
                 </CardContent>
               </Box>
             </Card>
