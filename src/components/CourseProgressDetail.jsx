@@ -492,6 +492,10 @@ export default function CourseProgressDetail() {
                                 px: 3,
                                 py: 1.5,
                                 fontWeight: 600,
+                                transition: "all 0.3s ease",
+                                "&:hover" : {
+                                  opacity: 0.7
+                                }
                               }}
                             >
                               mark as completed
@@ -505,7 +509,7 @@ export default function CourseProgressDetail() {
                         variant="contained"
                         size="small"
                         sx={{
-                          backgroundColor: "#5a23b1",
+                          backgroundColor: "	#B45309",
                           transition: "all 0.3s ease",
                           "&:hover": {
                             opacity: 0.5,
