@@ -64,34 +64,34 @@ export default function CourseProgressDetail() {
       }
     };
 
-    const getModules = async () => {
-      const { data, error } = await supabase
-        .from("modules")
-        .select(
-          `
-      *,
-      mod_progress!inner(user_id, progress, completed, sequence)
-    `
-        )
-        .eq("course_id", course_id)
-        .eq("mod_progress.user_id", user);
-
-      if (error) {
-        console.error(error);
-        return;
-      }
-      if (data) {
-        setModules(
-          data.sort(
-            (a, b) => a.mod_progress[0].sequence - b.mod_progress[0].sequence
-          )
-        );
-      }
-    };
-
     getCourse();
     getModules();
   }, [course_id, user]);
+
+  const getModules = async () => {
+    const { data, error } = await supabase
+      .from("modules")
+      .select(
+        `
+      *,
+      mod_progress!inner(user_id, progress, completed, sequence)
+    `
+      )
+      .eq("course_id", course_id)
+      .eq("mod_progress.user_id", user);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+    if (data) {
+      setModules(
+        data.sort(
+          (a, b) => a.mod_progress[0].sequence - b.mod_progress[0].sequence
+        )
+      );
+    }
+  };
 
   const handleCheck = async (mod_id) => {
     setCheckButtons((prev) => ({
@@ -115,6 +115,8 @@ export default function CourseProgressDetail() {
       if (error) {
         console.error(error);
       }
+
+      await getModules();
     };
 
     const checkProgress = async () => {
@@ -190,8 +192,6 @@ export default function CourseProgressDetail() {
     };
 
     await updateModules(mod_id);
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
-    window.location.reload(false);
   };
 
   const startModule = async (mod_id) => {
@@ -210,6 +210,8 @@ export default function CourseProgressDetail() {
     if (error) {
       console.error(error);
     }
+
+    await getModules();
   };
 
   const moveModule = async (cur_mod, cur_index, target_index) => {
@@ -317,9 +319,10 @@ export default function CourseProgressDetail() {
                 justifyContent: "space-between",
                 border: "1px solid #ffffff1a",
                 backgroundColor: "#ffffff1a",
+                transition: "all 0.3s ease",
                 "&:hover": {
-                  boxShadow: 6,
-                  borderColor: "white",
+                  boxShadow: "0px 4px 20px rgba(255, 255, 255, 0.15)",
+                  borderColor: "#ffffff1a",
                 },
               }}
             >
@@ -377,6 +380,7 @@ export default function CourseProgressDetail() {
                                 color="success"
                                 size="small"
                                 sx={{
+                                  transition: "all 0.3s ease",
                                   "&:hover": { backgroundColor: "#9e9e9e" },
                                 }}
                               >
@@ -389,10 +393,13 @@ export default function CourseProgressDetail() {
                               <Button
                                 onClick={() => handleOpen(index)}
                                 variant="contained"
-                                color="primary"
                                 size="small"
                                 sx={{
-                                  "&:hover": { backgroundColor: "#1976d2" },
+                                  backgroundColor: "#5a23b1",
+                                  transition: "all 0.3s ease",
+                                  "&:hover": {
+                                    opacity: 0.7,
+                                  },
                                 }}
                               >
                                 Resume

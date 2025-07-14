@@ -197,9 +197,10 @@ export default function CourseDetail() {
                 justifyContent: "space-between",
                 border: "1px solid #ffffff1a",
                 backgroundColor: "#ffffff1a",
+                transition: "all 0.3s ease",
                 "&:hover": {
-                  boxShadow: 6,
-                  borderColor: "white",
+                  boxShadow: "0px 4px 20px rgba(255, 255, 255, 0.15)",
+                  borderColor: "#ffffff1a",
                 },
               }}
             >
