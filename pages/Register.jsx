@@ -45,9 +45,8 @@ export default function Register() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        width: "100%",
+        width: "100vw",
         bgcolor: "black",
-        px: 2,
         color: "white",
       }}
     >
@@ -78,7 +77,7 @@ export default function Register() {
       <Box
         sx={{
           backgroundColor: "#ffffff1a",
-          padding: "32px 40px",
+          padding: "40px",
           borderRadius: "12px",
           minWidth: "320px",
           maxWidth: "400px",
@@ -182,7 +181,7 @@ export default function Register() {
           </Button>
         </Box>
 
-        <div style={{ marginTop: "20px", fontSize: "0.9rem"}}>
+        <div style={{ marginTop: "20px", fontSize: "0.9rem" }}>
           <span>Already have an account? </span>
           <Link
             to="/login"

@@ -10,7 +10,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import ProgressBar from "./ProgressBar";
-import videoPlayerScreenshot from "src/assets/video_player_screenshot.png";
+import videoPlayerScreenshot from "../assets/video_player_screenshot.png";
 
 export default function CourseProgressDetail() {
   const { course_id } = useParams();
@@ -466,7 +466,7 @@ export default function CourseProgressDetail() {
                               {mod.title}
                             </h2>
                             <img
-                              src="src/assets/video_player_screenshot.png"
+                              src={videoPlayerScreenshot}
                               alt="Video preview"
                               style={{
                                 width: "100%",

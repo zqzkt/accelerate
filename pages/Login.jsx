@@ -44,9 +44,8 @@ export default function Login() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        width: "100%",
+        width: "100vw",
         bgcolor: "black",
-        px: 2,
         color: "white",
       }}
     >
@@ -78,7 +77,7 @@ export default function Login() {
       <Box
         sx={{
           backgroundColor: "#ffffff1a",
-          padding: "32px 40px",
+          padding: "40px",
           borderRadius: "12px",
           minWidth: "320px",
           maxWidth: "400px",
