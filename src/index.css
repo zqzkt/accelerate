@@ -6,10 +6,6 @@
     "calt" 1; /* fix for Chrome */
 
   line-height: 1.5;
-
-  /* color-scheme: white; */
-  /* color: #e0dee3; */
-  /* background-color: #e0dee3; */
   background-color: black;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -49,23 +45,15 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  /* background-color: #1a1a1a; */
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color:white;
+  border-color: white;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #213547;
-    /* background-color: #ffffff; */
-  }
 }
 
 h1,
