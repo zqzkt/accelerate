@@ -1,26 +1,28 @@
-<h1 align="center" style="font-weight: bold;">Accelerate 💻</h1>
+# 🚀 Accelerate 💻
+
+**A learning platform for tech learners, designed to provide a personalized and flexible learning experience.**
+
+## 📚 Table of Contents
+
+- [📱 Visit this Project](#visit-this-project)
+- [🎨 Layout](#layout)
+- [💻 Technologies](#technologies)
+- [🚀 Getting Started](#getting-started)
+
+
+## 📱 Visit this Project
+
+👉 [https://ttp-accelerate.netlify.app/](https://ttp-accelerate.netlify.app/)
+
+
+## 🎨 Layout
 
 <p align="center">
- <a href="#tech">Technologies</a> • 
- <a href="#started">Getting Started</a>
+  <img src=".github/example.png" alt="Image Example" width="400px" />
+  <img src=".github/example.png" alt="Image Example" width="400px" />
 </p>
 
-<p align="center">
-    <b>This is a proof-of-concept of a learning web application. </b>
-</p>
-
-<p align="center">
-     <a href="https://ttp-accelerate.netlify.app/">📱 Visit this Project</a>
-</p>
-
-<h2 id="layout">🎨 Layout</h2>
-
-<p align="center">
-    <img src="../.github/example.png" alt="Image Example" width="400px">
-    <img src="../.github/example.png" alt="Image Example" width="400px">
-</p>
-
-<h2 id="tech">💻 Technologies</h2>
+## 💻 Technologies
 
 - Vite
 - React
@@ -29,39 +31,45 @@
 - Material UI
 - Gemini API
 
-<h2 id="started">🚀 Getting started</h2>
+
+## 🚀 Getting started
 
 Follow these steps to set up and run the project locally.
 
 
-
-<h3>Prerequisites</h3>
+### Prerequisites
 
 Ensure the following tools are installed:
 
-- Node.js (v18 or higher recommended)
+- Node.js
 - npm or yarn
 - Netlify CLI (for local Netlify Functions testing)
+  
 
-```bash 
-npm install -g netlify-cli
-```
-
-<h3>Cloning</h3>
+### Cloning
 
 How to clone your project
 
 ```bash
-git clone your-project-url-in-github
+git clone https://github.com/zqzkt/ubs-ttp.git
 ```
 
-<h3>Starting</h3>
+### Starting
 
 How to start your project
 
 ```bash
+npm install -g netlify-cli
 cd ubs-ttp
 netlify dev
 ```
 
+## 🔐 Environment Variables
 
+1. Create a `.env` file in the project root by copying the example:
+
+```bash
+cp .env.example .env
+```
+
+2. Open .env and replace the placeholder values with your actual API keys and URLs.
