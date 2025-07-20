@@ -1,12 +1,67 @@
-# React + Vite
+<h1 align="center" style="font-weight: bold;">Accelerate 💻</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+ <a href="#tech">Technologies</a> • 
+ <a href="#started">Getting Started</a>
+</p>
 
-Currently, two official plugins are available:
+<p align="center">
+    <b>This is a proof-of-concept of a learning web application. </b>
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p align="center">
+     <a href="https://ttp-accelerate.netlify.app/">📱 Visit this Project</a>
+</p>
 
-## Expanding the ESLint configuration
+<h2 id="layout">🎨 Layout</h2>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+<p align="center">
+    <img src="../.github/example.png" alt="Image Example" width="400px">
+    <img src="../.github/example.png" alt="Image Example" width="400px">
+</p>
+
+<h2 id="tech">💻 Technologies</h2>
+
+- Vite
+- React
+- Supabase
+- Netlify
+- Material UI
+- Gemini API
+
+<h2 id="started">🚀 Getting started</h2>
+
+Follow these steps to set up and run the project locally.
+
+
+
+<h3>Prerequisites</h3>
+
+Ensure the following tools are installed:
+
+- Node.js (v18 or higher recommended)
+- npm or yarn
+- Netlify CLI (for local Netlify Functions testing)
+
+```bash 
+npm install -g netlify-cli
+```
+
+<h3>Cloning</h3>
+
+How to clone your project
+
+```bash
+git clone your-project-url-in-github
+```
+
+<h3>Starting</h3>
+
+How to start your project
+
+```bash
+cd ubs-ttp
+netlify dev
+```
+
+
