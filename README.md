@@ -56,7 +56,7 @@ Ensure the following tools are installed:
 How to clone your project
 
 ```bash
-git clone https://github.com/zqzkt/ubs-ttp.git
+git clone https://github.com/zqzkt/accelerate.git
 ```
 
 ### Starting
