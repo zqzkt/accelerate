@@ -2,6 +2,8 @@
 
 **A learning platform for tech learners, designed to provide a personalized and flexible learning experience.**
 
+> ⚠️ **Note:** This project is a **proof of concept** and may not be fully production-ready. Features and functionality are subject to change.
+
 ## 📚 Table of Contents
 
 - [📱 Visit this Project](#visit-this-project)
