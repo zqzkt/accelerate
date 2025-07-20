@@ -18,8 +18,11 @@
 ## 🎨 Layout
 
 <p align="center">
-  <img src=".github/example.png" alt="Image Example" width="400px" />
-  <img src=".github/example.png" alt="Image Example" width="400px" />
+  <img src=".github/Accelerate_Login.png" alt="Login screenshot" width="400px" />
+  <img src=".github/Accelerate_Dashboard.png" alt="Dashboard screenshot" width="400px" />
+  <img src=".github/Accelerate_CourseEnrolment.png" alt="Dashboard screenshot" width="400px" />
+  <img src=".github/Accelerate_InProgressCourses.png" alt="Dashboard screenshot" width="400px" />
+  
 </p>
 
 ## 💻 Technologies
